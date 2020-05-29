@@ -3,6 +3,7 @@ const { gql } = require('apollo-server');
 const typeDefs = gql`
   type Query {
     getPokemons: [Pokemon]
+    getRaids: [Raid]
   }
 
   type Pokemon {
@@ -55,6 +56,35 @@ const typeDefs = gql`
   type CurrentMovesets {
     quickMove: String
     cinematicMove: String
+  }
+
+  type Raid {
+    tier: String
+    info: Info
+    raids: [Raids]
+    attackMultiplier: Float
+    defenseMultiplier: Float
+    staminaMultiplier: Float
+    raidType: String
+  }
+
+  type Info {
+    hp: Int
+    cpm: Float
+    level: Int
+    guessTier: String
+    attackMultiplier: Float
+    defenseMultiplier: Float
+    staminaMultiplier: Float
+  }
+
+  type Raids {
+    id: Int
+    pokemon: String
+    cp: Int
+    shiny: Boolean
+    verified: Boolean
+    minCp: Int
   }
 `;
 
