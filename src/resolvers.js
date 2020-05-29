@@ -1,16 +1,7 @@
+var pokemons = require('../lib/pokemon.json');
+
 module.exports = {
   Query: {
-    books: () => books,
+    getPokemons: () => pokemons.pokemon,
   },
 };
-
-const books = [
-  {
-    title: 'Harry Potter and the Chamber of Secrets',
-    author: 'J.K. Rowling',
-  },
-  {
-    title: 'Jurassic Park',
-    author: 'Michael Crichton',
-  },
-];
