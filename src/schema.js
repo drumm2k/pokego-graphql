@@ -3,9 +3,10 @@ const { gql } = require('apollo-server-express');
 const typeDefs = gql`
   type Query {
     getPokemons: [Pokemon]
-    getPokemonById(pokemonNum: ID): Pokemon
-    getPokemonByName(pokemonId: ID): Pokemon
+    getPokemonById(id: ID): Pokemon
+    getPokemonByName(name: String): Pokemon
     getRaids: [Raid]
+    getRaidTier(tier: Int): Raid
     getEvents: [Event]!
     getEvent(id: ID!): Event!
   }
