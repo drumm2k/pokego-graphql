@@ -1,5 +1,6 @@
 var pokemons = require('../lib/pokemon.json');
 var raids = require('../lib/raids.json');
+var events = require('../lib/events.json');
 
 module.exports = {
   Query: {
@@ -15,5 +16,11 @@ module.exports = {
       );
     },
     getRaids: () => raids.tiers,
+    getEvents(parent, args, context, info) {
+      return events.events;
+    },
+    getEvent(obj, args, context, info) {
+      return events.events.find((event) => event.id === parseInt(args.id));
+    },
   },
 };

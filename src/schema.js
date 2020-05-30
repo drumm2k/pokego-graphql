@@ -6,6 +6,8 @@ const typeDefs = gql`
     getPokemonById(pokemonNum: ID): Pokemon
     getPokemonByName(pokemonId: ID): Pokemon
     getRaids: [Raid]
+    getEvents: [Event]!
+    getEvent(id: ID!): Event!
   }
 
   type Pokemon {
@@ -87,6 +89,15 @@ const typeDefs = gql`
     shiny: Boolean
     verified: Boolean
     minCp: Int
+  }
+
+  type Event {
+    id: ID!
+    name: String!
+    desc: String!
+    start: String!
+    end: String!
+    img: String!
   }
 `;
 
