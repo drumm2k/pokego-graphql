@@ -5,8 +5,10 @@ const typeDefs = gql`
     getPokemons: [Pokemon]
     getPokemonById(id: ID): Pokemon
     getPokemonByName(name: String): Pokemon
+    getPokemonGroupByName(names: [String]): [Pokemon]
     getRaids: [Raid]
     getRaidTier(tier: Int): Raid
+    getRaidTiers: [Raid]
     getEvents: [Event]!
     getEvent(id: ID!): Event!
   }
