@@ -14,11 +14,9 @@ module.exports = {
       return pokemons.pokemon.find((pokemon) => pokemon.pokemonId === args.name);
     },
     getPokemonGroupByName(parent, args, context, info) {
-      let res = [];
-
-      args.names.map((name) => {
-        res.push(pokemons.pokemon.find((pokemon) => pokemon.pokemonId === name));
-      });
+      const res = args.names.map((name) =>
+        pokemons.pokemon.find((pokemon) => pokemon.pokemonId === name)
+      );
 
       return res;
     },
@@ -29,11 +27,9 @@ module.exports = {
     getRaidTiers() {
       const levels = [1, 2, 3, 4, 5];
 
-      let res = [];
-
-      levels.map((level) => {
-        res.push(raids.tiers.find((raid) => raid.tier === `RAID_LEVEL_${level}`));
-      });
+      const res = levels.map((level) =>
+        raids.tiers.find((raid) => raid.tier === `RAID_LEVEL_${level}`)
+      );
 
       return res;
     },
