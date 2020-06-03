@@ -1,4 +1,5 @@
 const express = require('express');
+const { express: voyagerMiddleware } = require('graphql-voyager/middleware');
 const { ApolloServer, gql } = require('apollo-server-express');
 
 const typeDefs = require('./schema');
@@ -12,6 +13,7 @@ const server = new ApolloServer({
 });
 
 const app = express();
+app.use('/voyager', voyagerMiddleware({ endpointUrl: '/graphql' }));
 server.applyMiddleware({ app });
 
 app.listen({ port: process.env.PORT || 4000 }, () =>
