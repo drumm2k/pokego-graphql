@@ -3,34 +3,42 @@
     {
       "id": 1,
       "name": "Rayquaza в рейдах",
-      "desc": "Rayquaza возвращается, на этот раз с шайни версией.",
-      "start": "Feb 31 2020 05:00:00 GMT-0700",
-      "end": "Mar 2 2021 05:00:00 GMT-0700",
-      "img": "/img/pokemon/384.png"
+      "img": "/img/pokemon/384.png",
+      "imgFull": "",
+      "description": "Rayquaza возвращается, на этот раз с шайни версией.",
+      "descriptionFull": "Бонусы: х2 опыт, х2 пыль.",
+      "starts": "Feb 31 2020 05:00:00 GMT-0700",
+      "ends": "Mar 2 2021 05:00:00 GMT-0700"
     },
     {
       "id": 2,
       "name": "Week 1: Johto Journey",
-      "desc": "Ультра бонус, первая неделя.",
-      "start": "Jun 2 2020 13:00:00 GMT-0700",
-      "end": "Jul 9 2020 13:00:00 GMT-0700",
-      "img": "/img/pokemon/201-f.png"
+      "img": "/img/pokemon/201-f.png",
+      "imgFull": "",
+      "description": "Ультра бонус, первая неделя.",
+      "descriptionFull": "Бонусы: х2 опыт, х2 пыль.",
+      "starts": "Jun 2 2020 13:00:00 GMT-0700",
+      "ends": "Jul 9 2020 13:00:00 GMT-0700"
     },
     {
       "id": 3,
       "name": "Week 2: Global Challenge, Global Hatches",
-      "desc": "Ультра бонус, вторая неделя.",
-      "start": "Mar 9 2020 13:00:00 GMT-0700",
-      "end": "Mar 16 2020 13:00:00 GMT-0700",
-      "img": "/img/pokemon/83.png"
+      "img": "/img/pokemon/83.png",
+      "imgFull": "",
+      "description": "Ультра бонус, вторая неделя.",
+      "descriptionFull": "Бонусы: х2 опыт, х2 пыль.",
+      "starts": "Mar 9 2020 13:00:00 GMT-0700",
+      "ends": "Mar 16 2020 13:00:00 GMT-0700"
     },
     {
       "id": 4,
       "name": "Week 3: A Unova Unveiling",
-      "desc": "Ультра бонус, третья неделя.",
-      "start": "Mar 16 2020 13:00:00 GMT-0700",
-      "end": "Mar 23 2020 13:00:00 GMT-0700",
-      "img": "/img/pokemon/286.png"
+      "img": "/img/pokemon/286.png",
+      "imgFull": "",
+      "description": "Ультра бонус, третья неделя.",
+      "descriptionFull": "Бонусы: х2 опыт, х2 пыль.",
+      "starts": "Mar 16 2020 13:00:00 GMT-0700",
+      "ends": "Mar 23 2020 13:00:00 GMT-0700"
     }
   ]
 }

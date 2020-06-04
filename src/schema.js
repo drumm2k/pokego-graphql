@@ -96,11 +96,13 @@ const typeDefs = gql`
 
   type Event {
     id: ID!
-    name: String!
-    desc: String!
-    start: String!
-    end: String!
-    img: String!
+    name: String
+    img: String
+    imgFull: String
+    description: String
+    descriptionFull: String
+    starts: String
+    ends: String
   }
 `;
 
