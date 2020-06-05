@@ -2,26 +2,16 @@
   "events": [
     {
       "id": 1,
-      "name": "Rayquaza в рейдах",
-      "img": "/img/pokemon/384.png",
-      "imgFull": "",
-      "description": "Rayquaza возвращается, на этот раз с шайни версией.",
-      "descriptionFull": "Бонусы: х2 опыт, х2 пыль.",
-      "starts": "Feb 31 2020 05:00:00 GMT-0700",
-      "ends": "Mar 2 2021 05:00:00 GMT-0700"
-    },
-    {
-      "id": 2,
       "name": "Week 1: Johto Journey",
       "img": "/img/pokemon/201-f.png",
       "imgFull": "",
       "description": "Ультра бонус, первая неделя.",
       "descriptionFull": "Бонусы: х2 опыт, х2 пыль.",
-      "starts": "Jun 2 2020 13:00:00 GMT-0700",
-      "ends": "Jul 9 2020 13:00:00 GMT-0700"
+      "starts": "Mar 2 2020 13:00:00 GMT-0700",
+      "ends": "Mar 9 2020 13:00:00 GMT-0700"
     },
     {
-      "id": 3,
+      "id": 2,
       "name": "Week 2: Global Challenge, Global Hatches",
       "img": "/img/pokemon/83.png",
       "imgFull": "",
@@ -31,7 +21,7 @@
       "ends": "Mar 16 2020 13:00:00 GMT-0700"
     },
     {
-      "id": 4,
+      "id": 3,
       "name": "Week 3: A Unova Unveiling",
       "img": "/img/pokemon/286.png",
       "imgFull": "",
@@ -39,6 +29,36 @@
       "descriptionFull": "Бонусы: х2 опыт, х2 пыль.",
       "starts": "Mar 16 2020 13:00:00 GMT-0700",
       "ends": "Mar 23 2020 13:00:00 GMT-0700"
+    },
+    {
+      "id": 4,
+      "name": "Дебют Reshiram’а в рейдах",
+      "img": "/img/pokemon/643.png",
+      "imgFull": "",
+      "description": "Реширам — легендарный покемон пятого поколения.",
+      "descriptionFull": "",
+      "starts": "May 26 2020 05:00:00 GMT-0700",
+      "ends": "Jun 16 2020 05:00:00 GMT-0700"
+    },
+    {
+      "id": 5,
+      "name": "Дебют Zekrom’а в рейдах",
+      "img": "/img/pokemon/644.png",
+      "imgFull": "",
+      "description": "Зекром — легендарный покемон пятого поколения.",
+      "descriptionFull": "",
+      "starts": "Jun 16 2020 01:00:00 GMT-0700",
+      "ends": "Jul 8 2020 01:00:00 GMT-0700"
+    },
+    {
+      "id": 6,
+      "name": "Дебют Kyurem’а в рейдах",
+      "img": "/img/pokemon/646.png",
+      "imgFull": "",
+      "description": "Кьюрем — легендарный покемон пятого поколения.",
+      "descriptionFull": "",
+      "starts": "Jul 8 2020 01:00:00 GMT-0700",
+      "ends": "Jul 30 2020 01:00:00 GMT-0700"
     }
   ]
 }
