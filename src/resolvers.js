@@ -5,6 +5,14 @@ var events = require('../lib/events.json');
 module.exports = {
   Query: {
     getPokemons: () => pokemons.pokemon,
+    getPokemonsPure: () => {
+      let res = [];
+      pokemons.pokemon.map((pokemon) => {
+        if (!pokemon.pokemonId.includes('FORM')) res.push(pokemon);
+      });
+
+      return res;
+    },
     getPokemonById(parent, args, context, info) {
       return pokemons.pokemon.find(
         (pokemon) => pokemon.pokedex.pokemonNum === parseInt(args.id)
