@@ -37,8 +37,8 @@
       "imgFull": "",
       "description": "Реширам — легендарный покемон пятого поколения.",
       "descriptionFull": "",
-      "starts": "May 26 2020 01:00:00 GMT-0700",
-      "ends": "Jun 16 2020 01:00:00 GMT-0700"
+      "starts": "May 26 2020 13:00:00 GMT-0700",
+      "ends": "Jun 16 2020 13:00:00 GMT-0700"
     },
     {
       "id": 5,
@@ -47,8 +47,8 @@
       "imgFull": "",
       "description": "Зекром — легендарный покемон пятого поколения.",
       "descriptionFull": "",
-      "starts": "Jun 16 2020 01:00:00 GMT-0700",
-      "ends": "Jul 7 2020 01:00:00 GMT-0700"
+      "starts": "Jun 16 2020 13:00:00 GMT-0700",
+      "ends": "Jul 7 2020 13:00:00 GMT-0700"
     },
     {
       "id": 6,
@@ -57,8 +57,18 @@
       "imgFull": "",
       "description": "Кьюрем — легендарный покемон пятого поколения.",
       "descriptionFull": "",
-      "starts": "Jul 7 2020 01:00:00 GMT-0700",
-      "ends": "Jul 28 2020 01:00:00 GMT-0700"
+      "starts": "Jul 7 2020 13:00:00 GMT-0700",
+      "ends": "Jul 28 2020 13:00:00 GMT-0700"
+    },
+    {
+      "id": 7,
+      "name": "Latias и Latios",
+      "img": "/img/pokemon/380.png",
+      "imgFull": "",
+      "description": "Легендарные рейд выходные.",
+      "descriptionFull": "",
+      "starts": "Jun 12 2020 08:00:00",
+      "ends": "Jun 15 2020 22:00:00"
     }
   ]
 }
