@@ -38,6 +38,35 @@ module.exports = {
       const res = levels.map((level) =>
         raids.tiers.find((raid) => raid.tier === `RAID_LEVEL_${level}`)
       );
+      // console.log(res);
+      return res;
+    },
+    getRaidsFull() {
+      const levels = [1, 2, 3, 4, 5];
+
+      // Filter raids level 1-5
+      const raidList = levels.map((level) =>
+        raids.tiers.find((raid) => raid.tier === `RAID_LEVEL_${level}`)
+      );
+
+      // Get pokemon names
+      const pokemonList = raidList.map((tier) =>
+        tier.raids.map((pokemon) => pokemon.pokemon)
+      );
+
+      // Find pokemons with the same name and get the data
+      const pokemonsData = [];
+      pokemonList.map((tier) =>
+        tier.map((name) =>
+          pokemons.pokemon.find((pokemon) => {
+            if (pokemon.pokemonId === name) pokemonsData.push(pokemon);
+          })
+        )
+      );
+
+      let res = {};
+      res['raids'] = raidList;
+      res['pokemons'] = pokemonsData;
 
       return res;
     },

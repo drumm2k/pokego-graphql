@@ -10,8 +10,14 @@ const typeDefs = gql`
     getRaids: [Raid]
     getRaidTier(tier: Int): Raid
     getRaidTiers: [Raid]
+    getRaidsFull: RaidsFull
     getEvents: [Event]!
     getEvent(id: ID!): Event!
+  }
+
+  type RaidsFull {
+    raids: [Raid]
+    pokemons: [Pokemon]
   }
 
   type Pokemon {
