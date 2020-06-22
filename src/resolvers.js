@@ -4,9 +4,8 @@ var events = require('../lib/events.json');
 import bcrypt from 'bcryptjs';
 
 import User from './models/user';
+import Follow from './models/follow';
 import TradeList from './models/tradeList';
-
-// createdAt: new Date(user._doc.createdAt).toISOString(),
 
 const user = async (userId) => {
   try {
@@ -16,6 +15,8 @@ const user = async (userId) => {
       id: user.id,
       password: null,
       tradeLists: tradeLists.bind(this, user.tradeLists),
+      createdAt: new Date(user._doc.createdAt).toISOString(),
+      updatedAt: new Date(user._doc.updatedAt).toISOString(),
     };
   } catch (error) {
     throw error;
@@ -37,6 +38,34 @@ const tradeLists = async (tradeListsIds) => {
   }
 };
 
+const followers = async (followersIds) => {
+  try {
+    const followers = await Follow.find({ _id: { $in: followersIds } });
+    return followers.map((follower) => {
+      return {
+        ...follower._doc,
+        id: follower.id,
+      };
+    });
+  } catch (error) {
+    throw error;
+  }
+};
+
+const following = async (followingIds) => {
+  try {
+    const following = await Follow.find({ _id: { $in: followingIds } });
+    return following.map((followingUser) => {
+      return {
+        ...followingUser._doc,
+        id: followingUser.id,
+      };
+    });
+  } catch (error) {
+    throw error;
+  }
+};
+
 module.exports = {
   Query: {
     getUsers: async () => {
@@ -48,6 +77,10 @@ module.exports = {
               password: null,
               id: user.id,
               tradeLists: tradeLists.bind(this, user._doc.tradeLists),
+              followers: followers.bind(this, user._doc.followers),
+              following: following.bind(this, user._doc.following),
+              createdAt: new Date(user._doc.createdAt).toISOString(),
+              updatedAt: new Date(user._doc.updatedAt).toISOString(),
             };
           });
         })
@@ -146,18 +179,21 @@ module.exports = {
   Mutation: {
     createUser: async (parent, args, context, info) => {
       try {
-        const existingUser = await User.findOne({ email: args.userInput.email });
+        const existingUser = await User.findOne({ email: args.input.email });
 
         if (existingUser) {
           throw new Error('User already exists.');
         }
-        const hashedPassword = await bcrypt.hash(args.userInput.password, 12);
+        const hashedPassword = await bcrypt.hash(args.input.password, 12);
 
         const user = new User({
-          userName: args.userInput.userName,
-          email: args.userInput.email,
+          userName: args.input.userName,
+          email: args.input.email,
           password: hashedPassword,
-          team: args.userInput.team,
+          team: args.input.team,
+          trainerCode: args.input.trainerCode,
+          latitude: args.input.latitude,
+          longtitude: args.input.longtitude,
         });
 
         const result = await user.save();
@@ -166,12 +202,61 @@ module.exports = {
         throw error;
       }
     },
+    createFollow: async (
+      parent,
+      { input: { userId, followerId } },
+      context,
+      info
+    ) => {
+      try {
+        // Need to add check if the follower is the authorized user and this follow is connected to him
+        // Check if already following?
+        const follow = await new Follow({
+          user: userId,
+          follower: followerId,
+        }).save();
+
+        // Push follower/following to user collection
+        await User.findOneAndUpdate(
+          { _id: userId },
+          { $push: { followers: follow.id } }
+        );
+        await User.findOneAndUpdate(
+          { _id: followerId },
+          { $push: { following: follow.id } }
+        );
+
+        return follow;
+      } catch (error) {
+        throw error;
+      }
+    },
+    deleteFollow: async (parent, { input: { id } }) => {
+      try {
+        // Need to add check if the follower is the authorized user and this follow was created by him
+        const follow = await Follow.findByIdAndRemove(id);
+
+        // Delete follow from users collection
+        await User.findOneAndUpdate(
+          { _id: follow.user },
+          { $pull: { followers: follow.id } }
+        );
+        await User.findOneAndUpdate(
+          { _id: follow.follower },
+          { $pull: { following: follow.id } }
+        );
+
+        return follow;
+      } catch (error) {
+        throw error;
+      }
+    },
     createTradeList: async (parent, args, context, info) => {
       try {
         const tradeList = new TradeList({
-          pokemons: args.tradeListInput.pokemons,
-          description: args.tradeListInput.description,
-          isPrivate: args.tradeListInput.isPrivate,
+          pokemons: args.input.pokemons,
+          description: args.input.description,
+          isPrivate: args.input.isPrivate,
           createdBy: '5ef00af4166c4d48939750b6',
         });
 

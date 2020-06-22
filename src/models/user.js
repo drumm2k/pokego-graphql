@@ -4,13 +4,19 @@ const { Schema } = mongoose;
 
 const userSchema = new Schema(
   {
-    userName: {
+    username: {
       type: String,
       required: true,
+      lowercase: true,
+      trim: true,
+      unique: true,
     },
     email: {
       type: String,
       required: true,
+      lowercase: true,
+      trim: true,
+      unique: true,
     },
     password: {
       type: String,
@@ -20,6 +26,21 @@ const userSchema = new Schema(
       type: String,
       required: true,
     },
+    trainerCode: String,
+    latitude: Number,
+    longtitude: Number,
+    followers: [
+      {
+        type: Schema.Types.ObjectId,
+        ref: 'Follow',
+      },
+    ],
+    following: [
+      {
+        type: Schema.Types.ObjectId,
+        ref: 'Follow',
+      },
+    ],
     isBanned: { type: Boolean, default: false },
     isOnline: { type: Boolean, default: false },
     tradeLists: [

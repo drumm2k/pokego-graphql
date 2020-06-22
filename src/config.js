@@ -5,6 +5,8 @@ mongoose
   .connect(process.env.MONGO_URI, {
     useUnifiedTopology: true,
     useNewUrlParser: true,
+    useCreateIndex: true,
+    useFindAndModify: false,
   })
   .then(() => console.log(`Connected to mongo at ${process.env.MONGO_URI}`))
   .catch((err) => {

@@ -2,24 +2,26 @@ const { gql } = require('apollo-server-express');
 
 const typeDefs = gql`
   type Query {
-    getUsers: [User]!
-    getTradeLists: [TradeList]!
-    getPokemons: [Pokemon]!
-    getPokemonsPure: [Pokemon]!
+    getUsers: [User!]!
+    getTradeLists: [TradeList!]!
+    getPokemons: [Pokemon!]!
+    getPokemonsPure: [Pokemon!]!
     getPokemonById(id: ID): Pokemon
     getPokemonByName(name: String): Pokemon
-    getPokemonGroupByName(names: [String]): [Pokemon]!
-    getRaids: [Raid]!
+    getPokemonGroupByName(names: [String]): [Pokemon!]!
+    getRaids: [Raid!]!
     getRaidTier(tier: Int): Raid
-    getRaidTiers: [Raid]!
+    getRaidTiers: [Raid!]!
     getRaidsFull: RaidsFull
-    getEvents: [Event]!
+    getEvents: [Event!]!
     getEvent(id: ID!): Event
   }
 
   type Mutation {
-    createUser(userInput: UserInput): User
-    createTradeList(tradeListInput: TradeListInput): TradeList
+    createUser(input: UserInput!): User
+    createTradeList(input: TradeListInput!): TradeList
+    createFollow(input: CreateFollowInput!): Follow
+    deleteFollow(input: DeleteFollowInput!): Follow
   }
 
   type User {
@@ -28,11 +30,16 @@ const typeDefs = gql`
     email: String!
     password: String
     team: String!
+    trainerCode: String
+    latitude: Float
+    longtitude: Float
+    followers: [Follow]
+    following: [Follow]
+    tradeLists: [TradeList!]!
     isBanned: Boolean
     isOnline: Boolean
-    createdAt: String
-    updatedAt: String
-    tradeLists: [TradeList!]
+    createdAt: String!
+    updatedAt: String!
   }
 
   input UserInput {
@@ -40,6 +47,24 @@ const typeDefs = gql`
     email: String!
     password: String!
     team: String!
+    trainerCode: String
+    latitude: Float
+    longtitude: Float
+  }
+
+  type Follow {
+    id: ID!
+    user: ID
+    follower: ID
+  }
+
+  input CreateFollowInput {
+    userId: ID!
+    followerId: ID!
+  }
+
+  input DeleteFollowInput {
+    id: ID!
   }
 
   type TradeList {
