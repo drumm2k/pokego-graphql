@@ -1,6 +1,7 @@
-const express = require('express');
-const { express: voyagerMiddleware } = require('graphql-voyager/middleware');
-const { ApolloServer, gql } = require('apollo-server-express');
+import express from 'express';
+import { ApolloServer, gql } from 'apollo-server-express';
+import { express as voyagerMiddleware } from 'graphql-voyager/middleware';
+require('./config');
 
 const typeDefs = require('./schema');
 const resolvers = require('./resolvers');

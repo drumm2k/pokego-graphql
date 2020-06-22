@@ -2,17 +2,58 @@ const { gql } = require('apollo-server-express');
 
 const typeDefs = gql`
   type Query {
-    getPokemons: [Pokemon]
-    getPokemonsPure: [Pokemon]
+    getUsers: [User]!
+    getTradeLists: [TradeList]!
+    getPokemons: [Pokemon]!
+    getPokemonsPure: [Pokemon]!
     getPokemonById(id: ID): Pokemon
     getPokemonByName(name: String): Pokemon
-    getPokemonGroupByName(names: [String]): [Pokemon]
-    getRaids: [Raid]
+    getPokemonGroupByName(names: [String]): [Pokemon]!
+    getRaids: [Raid]!
     getRaidTier(tier: Int): Raid
-    getRaidTiers: [Raid]
+    getRaidTiers: [Raid]!
     getRaidsFull: RaidsFull
     getEvents: [Event]!
-    getEvent(id: ID!): Event!
+    getEvent(id: ID!): Event
+  }
+
+  type Mutation {
+    createUser(userInput: UserInput): User
+    createTradeList(tradeListInput: TradeListInput): TradeList
+  }
+
+  type User {
+    id: ID!
+    userName: String!
+    email: String!
+    password: String
+    team: String!
+    isBanned: Boolean
+    isOnline: Boolean
+    createdAt: String
+    updatedAt: String
+    tradeLists: [TradeList!]
+  }
+
+  input UserInput {
+    userName: String!
+    email: String!
+    password: String!
+    team: String!
+  }
+
+  type TradeList {
+    id: ID!
+    pokemons: [String]!
+    description: String!
+    isPrivate: Boolean
+    createdBy: User!
+  }
+
+  input TradeListInput {
+    pokemons: [String]!
+    description: String!
+    isPrivate: Boolean
   }
 
   type RaidsFull {
