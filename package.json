@@ -17,13 +17,13 @@
     "graphql": "^15.1.0",
     "graphql-voyager": "^1.0.0-rc.31",
     "mongoose": "^5.9.19",
-    "nodemon": "^2.0.4"
-  },
-  "devDependencies": {
+    "nodemon": "^2.0.4",
     "@babel/cli": "^7.10.3",
     "@babel/core": "^7.10.3",
     "@babel/node": "^7.10.3",
-    "@babel/preset-env": "^7.10.3",
+    "@babel/preset-env": "^7.10.3"
+  },
+  "devDependencies": {
     "eslint": "^7.2.0"
   }
 }
