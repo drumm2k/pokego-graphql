@@ -26,15 +26,19 @@ const user = async (userId) => {
   }
 };
 
+const transformTradeList = (tradeList) => {
+  return {
+    ...tradeList._doc,
+    id: tradeList.id,
+    createdBy: user.bind(this, tradeList.createdBy),
+  };
+};
+
 const tradeLists = async (tradeListsIds) => {
   try {
     const tradeLists = await TradeList.find({ _id: { $in: tradeListsIds } });
     return tradeLists.map((tradeList) => {
-      return {
-        ...tradeList._doc,
-        id: tradeList.id,
-        createdBy: user.bind(this, tradeList.createdBy),
-      };
+      return transformTradeList(tradeList);
     });
   } catch (error) {
     throw error;
@@ -96,11 +100,7 @@ module.exports = {
         const tradeLists = await TradeList.find();
 
         return tradeLists.map((tradeList) => {
-          return {
-            ...tradeList._doc,
-            id: tradeList.id,
-            createdBy: user.bind(this, tradeList._doc.createdBy),
-          };
+          return transformTradeList(tradeList);
         });
       } catch (error) {
         throw error;
@@ -108,7 +108,7 @@ module.exports = {
     },
     getPkmns: async () => {
       try {
-        const pkmns = await Pkmn.find().sort({ pokedex: 1 });
+        const pkmns = await Pkmn.find().sort({ gen: 1, pokedex: 1 });
 
         return pkmns.map((pkmn) => {
           return {
@@ -270,19 +270,19 @@ module.exports = {
     },
     createTradeList: async (parent, args, context, info) => {
       try {
+        const createdBy = await User.findById('5ef00af4166c4d48939750b6');
+        if (!createdBy) {
+          throw new Error('User not found.');
+        }
+
         const tradeList = new TradeList({
           pokemons: args.input.pokemons,
           description: args.input.description,
           isPrivate: args.input.isPrivate,
           createdBy: '5ef00af4166c4d48939750b6',
         });
-
-        const createdBy = await User.findById('5ef00af4166c4d48939750b6');
-        if (!createdBy) {
-          throw new Error('User not found.');
-        }
-
         const result = await tradeList.save();
+
         const createdTradeList = {
           ...result._doc,
           id: tradeList.id,
@@ -327,6 +327,56 @@ module.exports = {
     },
     initPkmn: async () => {
       await pkmns.pokemons.map((pokemon) => {
+        const pkmn = new Pkmn({
+          name: pokemon.name,
+          pokedex: pokemon.pokedex,
+          gen: pokemon.gen,
+          shiny: pokemon.shiny,
+          released: pokemon.released,
+          type1: pokemon.type1,
+          type2: pokemon.type2,
+          baseStamina: pokemon.baseStamina,
+          baseAttack: pokemon.baseAttack,
+          baseDefense: pokemon.baseDefense,
+          quickMoves: pokemon.quickMoves,
+          cinematicMoves: pokemon.cinematicMoves,
+          pokemonClass: pokemon.pokemonClass,
+          parentId: pokemon.parentId,
+          familyId: pokemon.familyId,
+          kmBuddyDistance: pokemon.kmBuddyDistance,
+          thirdMoveStardust: pokemon.thirdMoveStardust,
+          thirdMoveCandy: pokemon.thirdMoveCandy,
+        });
+        pkmn.save();
+
+        return pkmn;
+      });
+      await pkmns.pokemons_alola.map((pokemon) => {
+        const pkmn = new Pkmn({
+          name: pokemon.name,
+          pokedex: pokemon.pokedex,
+          gen: pokemon.gen,
+          shiny: pokemon.shiny,
+          released: pokemon.released,
+          type1: pokemon.type1,
+          type2: pokemon.type2,
+          baseStamina: pokemon.baseStamina,
+          baseAttack: pokemon.baseAttack,
+          baseDefense: pokemon.baseDefense,
+          quickMoves: pokemon.quickMoves,
+          cinematicMoves: pokemon.cinematicMoves,
+          pokemonClass: pokemon.pokemonClass,
+          parentId: pokemon.parentId,
+          familyId: pokemon.familyId,
+          kmBuddyDistance: pokemon.kmBuddyDistance,
+          thirdMoveStardust: pokemon.thirdMoveStardust,
+          thirdMoveCandy: pokemon.thirdMoveCandy,
+        });
+        pkmn.save();
+
+        return pkmn;
+      });
+      await pkmns.pokemons_galarian.map((pokemon) => {
         const pkmn = new Pkmn({
           name: pokemon.name,
           pokedex: pokemon.pokedex,
