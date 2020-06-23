@@ -1,11 +1,14 @@
 var pokemons = require('../lib/pokemon.json');
 var raids = require('../lib/raids.json');
 var events = require('../lib/events.json');
+var pkmns = require('../lib/pokemons.json');
+
 import bcrypt from 'bcryptjs';
 
 import User from './models/user';
 import Follow from './models/follow';
 import TradeList from './models/tradeList';
+import Pkmn from './models/pokemon';
 
 const user = async (userId) => {
   try {
@@ -97,6 +100,20 @@ module.exports = {
             ...tradeList._doc,
             id: tradeList.id,
             createdBy: user.bind(this, tradeList._doc.createdBy),
+          };
+        });
+      } catch (error) {
+        throw error;
+      }
+    },
+    getPkmns: async () => {
+      try {
+        const pkmns = await Pkmn.find();
+
+        return pkmns.map((pkmn) => {
+          return {
+            ...pkmn._doc,
+            id: pkmn.id,
           };
         });
       } catch (error) {
@@ -278,6 +295,59 @@ module.exports = {
       } catch (error) {
         throw error;
       }
+    },
+    createPkmn: async (parent, args, context, info) => {
+      try {
+        const pkmn = new Pkmn({
+          name: args.input.name,
+          pokedex: args.input.pokedex,
+          gen: args.input.gen,
+          shiny: args.input.shiny,
+          released: args.input.released,
+          type1: args.input.type1,
+          type2: args.input.type2,
+          baseStamina: args.input.baseStamina,
+          baseAttack: args.input.baseAttack,
+          baseDefense: args.input.baseDefense,
+          quickMoves: args.input.quickMoves,
+          cinematicMoves: args.input.cinematicMoves,
+          parentId: args.input.parentId,
+          familyId: args.input.familyId,
+          kmBuddyDistance: args.input.kmBuddyDistance,
+          thirdMoveStardust: args.input.thirdMoveStardust,
+          thirdMoveCandy: args.input.thirdMoveCandy,
+        });
+
+        await pkmn.save();
+        return pkmn;
+      } catch (error) {
+        throw error;
+      }
+    },
+    initPkmn: () => {
+      pkmns.pokemons.map((pokemon) => {
+        const pkmn = new Pkmn({
+          name: pokemon.name,
+          pokedex: pokemon.pokedex,
+          gen: pokemon.gen,
+          shiny: pokemon.shiny,
+          released: pokemon.released,
+          type1: pokemon.type1,
+          type2: pokemon.type2,
+          baseStamina: pokemon.baseStamina,
+          baseAttack: pokemon.baseAttack,
+          baseDefense: pokemon.baseDefense,
+          quickMoves: pokemon.quickMoves,
+          cinematicMoves: pokemon.cinematicMoves,
+          parentId: pokemon.parentId,
+          familyId: pokemon.familyId,
+          kmBuddyDistance: pokemon.kmBuddyDistance,
+          thirdMoveStardust: pokemon.thirdMoveStardust,
+          thirdMoveCandy: pokemon.thirdMoveCandy,
+        });
+        pkmn.save();
+        return pkmn;
+      });
     },
   },
 };

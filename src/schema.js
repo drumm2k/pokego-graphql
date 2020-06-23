@@ -4,6 +4,7 @@ const typeDefs = gql`
   type Query {
     getUsers: [User!]!
     getTradeLists: [TradeList!]!
+    getPkmns: [Pkmn!]!
     getPokemons: [Pokemon!]!
     getPokemonsPure: [Pokemon!]!
     getPokemonById(id: ID): Pokemon
@@ -22,6 +23,8 @@ const typeDefs = gql`
     createTradeList(input: TradeListInput!): TradeList
     createFollow(input: CreateFollowInput!): Follow
     deleteFollow(input: DeleteFollowInput!): Follow
+    createPkmn(input: PkmnInput!): Pkmn
+    initPkmn: [Pkmn]
   }
 
   type User {
@@ -84,6 +87,53 @@ const typeDefs = gql`
   type RaidsFull {
     raids: [Raid]
     pokemons: [Pokemon]
+  }
+
+  type Pkmn {
+    id: ID!
+    name: String!
+    pokedex: Int!
+    gen: String!
+    shiny: Boolean!
+    released: Boolean!
+    type1: String!
+    type2: String
+    baseStamina: Int!
+    baseAttack: Int!
+    baseDefense: Int!
+    quickMoves: [String!]!
+    cinematicMoves: [String!]!
+    parentId: String
+    familyId: String
+    kmBuddyDistance: Int
+    thirdMoveStardust: Int
+    thirdMoveCandy: Int
+  }
+
+  input PkmnInput {
+    name: String!
+    pokedex: Int!
+    gen: String!
+    shiny: Boolean!
+    released: Boolean!
+    type1: String!
+    type2: String
+    baseStamina: Int!
+    baseAttack: Int!
+    baseDefense: Int!
+    quickMoves: [String!]!
+    cinematicMoves: [String!]!
+    parentId: String
+    familyId: String
+    kmBuddyDistance: Int
+    thirdMoveStardust: Int
+    thirdMoveCandy: Int
+  }
+
+  type EvolutionBranch {
+    evolution: String!
+    candyCost: Int!
+    form: String!
   }
 
   type Pokemon {
