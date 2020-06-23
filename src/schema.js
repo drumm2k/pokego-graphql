@@ -103,6 +103,7 @@ const typeDefs = gql`
     baseDefense: Int!
     quickMoves: [String!]!
     cinematicMoves: [String!]!
+    pokemonClass: String
     parentId: String
     familyId: String
     kmBuddyDistance: Int
@@ -123,6 +124,7 @@ const typeDefs = gql`
     baseDefense: Int!
     quickMoves: [String!]!
     cinematicMoves: [String!]!
+    pokemonClass: String
     parentId: String
     familyId: String
     kmBuddyDistance: Int

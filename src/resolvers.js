@@ -108,7 +108,7 @@ module.exports = {
     },
     getPkmns: async () => {
       try {
-        const pkmns = await Pkmn.find();
+        const pkmns = await Pkmn.find().sort({ pokedex: 1 });
 
         return pkmns.map((pkmn) => {
           return {
@@ -311,6 +311,7 @@ module.exports = {
           baseDefense: args.input.baseDefense,
           quickMoves: args.input.quickMoves,
           cinematicMoves: args.input.cinematicMoves,
+          pokemonClass: args.input.pokemonClass,
           parentId: args.input.parentId,
           familyId: args.input.familyId,
           kmBuddyDistance: args.input.kmBuddyDistance,
@@ -324,8 +325,8 @@ module.exports = {
         throw error;
       }
     },
-    initPkmn: () => {
-      pkmns.pokemons.map((pokemon) => {
+    initPkmn: async () => {
+      await pkmns.pokemons.map((pokemon) => {
         const pkmn = new Pkmn({
           name: pokemon.name,
           pokedex: pokemon.pokedex,
@@ -339,6 +340,7 @@ module.exports = {
           baseDefense: pokemon.baseDefense,
           quickMoves: pokemon.quickMoves,
           cinematicMoves: pokemon.cinematicMoves,
+          pokemonClass: pokemon.pokemonClass,
           parentId: pokemon.parentId,
           familyId: pokemon.familyId,
           kmBuddyDistance: pokemon.kmBuddyDistance,
@@ -346,6 +348,7 @@ module.exports = {
           thirdMoveCandy: pokemon.thirdMoveCandy,
         });
         pkmn.save();
+
         return pkmn;
       });
     },

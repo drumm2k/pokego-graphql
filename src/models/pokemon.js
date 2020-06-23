@@ -56,6 +56,9 @@ const pokemonSchema = new Schema({
       },
     ],
   },
+  pokemonClass: {
+    type: String,
+  },
   parentId: {
     type: String,
   },
