@@ -1,49 +1,9 @@
 {
   "events": [
     {
-      "id": 1,
-      "name": "Week 1: Johto Journey",
-      "img": "/img/pokemon/201-f.png",
-      "imgFull": "",
-      "description": "Ультра бонус, первая неделя.",
-      "descriptionFull": "Бонусы: х2 опыт, х2 пыль.",
-      "starts": "Mar 2 2020 13:00:00 GMT-0700",
-      "ends": "Mar 9 2020 13:00:00 GMT-0700"
-    },
-    {
-      "id": 2,
-      "name": "Week 2: Global Challenge, Global Hatches",
-      "img": "/img/pokemon/83.png",
-      "imgFull": "",
-      "description": "Ультра бонус, вторая неделя.",
-      "descriptionFull": "Бонусы: х2 опыт, х2 пыль.",
-      "starts": "Mar 9 2020 13:00:00 GMT-0700",
-      "ends": "Mar 16 2020 13:00:00 GMT-0700"
-    },
-    {
-      "id": 3,
-      "name": "Week 3: A Unova Unveiling",
-      "img": "/img/pokemon/286.png",
-      "imgFull": "",
-      "description": "Ультра бонус, третья неделя.",
-      "descriptionFull": "Бонусы: х2 опыт, х2 пыль.",
-      "starts": "Mar 16 2020 13:00:00 GMT-0700",
-      "ends": "Mar 23 2020 13:00:00 GMT-0700"
-    },
-    {
-      "id": 4,
-      "name": "Дебют Reshiram в рейдах",
-      "img": "/img/pokemon/643.png",
-      "imgFull": "",
-      "description": "Реширам — легендарный покемон пятого поколения.",
-      "descriptionFull": "",
-      "starts": "May 26 2020 13:00:00 GMT-0700",
-      "ends": "Jun 16 2020 13:00:00 GMT-0700"
-    },
-    {
       "id": 5,
       "name": "Дебют Zekrom в рейдах",
-      "img": "/img/pokemon/644.png",
+      "img": "/images/events/jun2020-zekrom.jpg",
       "imgFull": "",
       "description": "Зекром — легендарный покемон пятого поколения.",
       "descriptionFull": "",
@@ -53,7 +13,7 @@
     {
       "id": 6,
       "name": "Дебют Kyurem в рейдах",
-      "img": "/img/pokemon/646.png",
+      "img": "/images/events/2020jul-kyurem.jpg",
       "imgFull": "",
       "description": "Кьюрем — легендарный покемон пятого поколения.",
       "descriptionFull": "",
@@ -61,39 +21,9 @@
       "ends": "Jul 28 2020 13:00:00 GMT-0700"
     },
     {
-      "id": 7,
-      "name": "Latias и Latios",
-      "img": "/img/pokemon/380.png",
-      "imgFull": "",
-      "description": "Легендарные рейд выходные.",
-      "descriptionFull": "",
-      "starts": "Jun 12 2020 08:00:00",
-      "ends": "Jun 15 2020 22:00:00"
-    },
-    {
-      "id": 8,
-      "name": "День сообщества - Weedle",
-      "img": "/img/pokemon/13.png",
-      "imgFull": "",
-      "description": "Увеличенный спавн Weedle. Если вам повезёт, то вы сможете поймать шайни Weedle. Эксклюзивный мув - Drill Run.",
-      "descriptionFull": "3х пыль за ловлю покемонов.",
-      "starts": "Jun 20 2020 11:00:00",
-      "ends": "Jun 20 2020 17:00:00"
-    },
-    {
-      "id": 9,
-      "name": "Летнее солнцестояние",
-      "img": "/img/pokemon/338.png",
-      "imgFull": "",
-      "description": "Увеличенный спавн покемонов связанных с солнцем и луной. Шайни Clefairy в дикой природе.",
-      "descriptionFull": "2х пыль за ловлю покемонов.",
-      "starts": "Jun 19 2020 08:00:00",
-      "ends": "Jun 24 2020 22:00:00"
-    },
-    {
       "id": 10,
       "name": "Жуки атакуют",
-      "img": "/img/pokemon/557.png",
+      "img": "/images/events/jun2020-bugout.jpg",
       "imgFull": "",
       "description": "Увеличенный спавн жуков-покемонов. Шайни Dwebble в дикой природе.",
       "descriptionFull": "2х опыт за ловлю покемонов.",
@@ -103,7 +33,7 @@
     {
       "id": 11,
       "name": "Pokémon GO Fest: День 1",
-      "img": "/img/pokemon/25.png",
+      "img": "/images/events/2020-summer-gofest.jpg",
       "imgFull": "",
       "description": "Получите доступ к специальному исследованию доступному только в первый день.",
       "descriptionFull": "",
@@ -113,12 +43,42 @@
     {
       "id": 12,
       "name": "Pokémon GO Fest: День 2",
-      "img": "/img/pokemon/25.png",
+      "img": "/images/events/2020-summer-gofest.jpg",
       "imgFull": "",
       "description": "Во второй день вас ожидает кое-что особенное, пусть это будет сюрпризом. А также ещё одно специальное исследование.",
       "descriptionFull": "",
       "starts": "Jul 26 2020 10:00:00",
       "ends": "Jul 26 2020 20:00:00"
+    },
+    {
+      "id": 13,
+      "name": "GO Fest 2020: Неделя 1",
+      "img": "/images/events/jul2020-gofest-challenges.jpg",
+      "imgFull": "",
+      "description": "Вызов - мастерство.",
+      "descriptionFull": "",
+      "starts": "Jul 3 2020 8:00:00",
+      "ends": "Jul 8 2020 22:00:00"
+    },
+    {
+      "id": 14,
+      "name": "GO Fest 2020: Неделя 2",
+      "img": "/images/events/jul2020-gofest-challenges.jpg",
+      "imgFull": "",
+      "description": "Вызов - битвы.",
+      "descriptionFull": "",
+      "starts": "Jul 10 2020 8:00:00",
+      "ends": "Jul 15 2020 22:00:00"
+    },
+    {
+      "id": 15,
+      "name": "GO Fest 2020: Неделя 3",
+      "img": "/images/events/jul2020-gofest-challenges.jpg",
+      "imgFull": "",
+      "description": "Вызов - дружба.",
+      "descriptionFull": "",
+      "starts": "Jul 17 2020 8:00:00",
+      "ends": "Jul 22 2020 22:00:00"
     }
   ]
 }
