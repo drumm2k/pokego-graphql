@@ -62,8 +62,8 @@ const typeDefs = gql`
 
   type Follow {
     id: ID!
-    user: ID
-    follower: ID
+    user: User
+    follower: User
   }
 
   input CreateFollowInput {

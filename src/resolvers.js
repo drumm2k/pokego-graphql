@@ -18,6 +18,8 @@ const user = async (userId) => {
       id: user.id,
       password: null,
       tradeLists: tradeLists.bind(this, user.tradeLists),
+      followers: followers.bind(this, user._doc.followers),
+      following: following.bind(this, user._doc.following),
       createdAt: new Date(user._doc.createdAt).toISOString(),
       updatedAt: new Date(user._doc.updatedAt).toISOString(),
     };
@@ -52,6 +54,8 @@ const followers = async (followersIds) => {
       return {
         ...follower._doc,
         id: follower.id,
+        user: user.bind(this, follower.user),
+        follower: user.bind(this, follower.follower),
       };
     });
   } catch (error) {
@@ -66,6 +70,8 @@ const following = async (followingIds) => {
       return {
         ...followingUser._doc,
         id: followingUser.id,
+        user: user.bind(this, followingUser.user),
+        follower: user.bind(this, followingUser.follower),
       };
     });
   } catch (error) {
@@ -83,6 +89,8 @@ module.exports = {
           id: user.id,
           password: null,
           tradeLists: tradeLists.bind(this, user.tradeLists),
+          followers: followers.bind(this, user._doc.followers),
+          following: following.bind(this, user._doc.following),
           createdAt: new Date(user._doc.createdAt).toISOString(),
           updatedAt: new Date(user._doc.updatedAt).toISOString(),
         };
