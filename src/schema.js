@@ -2,6 +2,7 @@ const { gql } = require('apollo-server-express');
 
 const typeDefs = gql`
   type Query {
+    getUser(userName: String!): User
     getUsers: [User!]!
     getTradeLists: [TradeList!]!
     getPkmns: [Pkmn!]!
@@ -32,10 +33,12 @@ const typeDefs = gql`
     userName: String!
     email: String!
     password: String
-    team: String!
+    trainerTeam: String
     trainerCode: String
-    latitude: Float
-    longtitude: Float
+    trainerLevel: Int
+    locLatitude: Float
+    locLongtitude: Float
+    telegram: String
     followers: [Follow]
     following: [Follow]
     tradeLists: [TradeList!]!
@@ -49,10 +52,12 @@ const typeDefs = gql`
     userName: String!
     email: String!
     password: String!
-    team: String!
+    trainerTeam: String
     trainerCode: String
-    latitude: Float
-    longtitude: Float
+    trainerLevel: Int
+    locLatitude: Float
+    locLongtitude: Float
+    telegram: String
   }
 
   type Follow {

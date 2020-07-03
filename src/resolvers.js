@@ -75,6 +75,21 @@ const following = async (followingIds) => {
 
 module.exports = {
   Query: {
+    getUser: async (parent, args, context, info) => {
+      try {
+        const user = await User.findOne({ userName: args.userName });
+        return {
+          ...user._doc,
+          id: user.id,
+          password: null,
+          tradeLists: tradeLists.bind(this, user.tradeLists),
+          createdAt: new Date(user._doc.createdAt).toISOString(),
+          updatedAt: new Date(user._doc.updatedAt).toISOString(),
+        };
+      } catch (error) {
+        throw error;
+      }
+    },
     getUsers: async () => {
       return User.find()
         .then((users) => {
@@ -207,10 +222,12 @@ module.exports = {
           userName: args.input.userName,
           email: args.input.email,
           password: hashedPassword,
-          team: args.input.team,
+          trainerTeam: args.input.trainerTeam,
           trainerCode: args.input.trainerCode,
-          latitude: args.input.latitude,
-          longtitude: args.input.longtitude,
+          trainerLevel: args.input.trainerLevel,
+          locLatitude: args.input.locLatitude,
+          locLongtitude: args.input.locLongtitude,
+          telegram: args.input.telegram,
         });
 
         const result = await user.save();
@@ -270,7 +287,7 @@ module.exports = {
     },
     createTradeList: async (parent, args, context, info) => {
       try {
-        const createdBy = await User.findById('5ef00af4166c4d48939750b6');
+        const createdBy = await User.findById('5eff6fd260041e1a1f114b34');
         if (!createdBy) {
           throw new Error('User not found.');
         }
@@ -279,7 +296,7 @@ module.exports = {
           pokemons: args.input.pokemons,
           description: args.input.description,
           isPrivate: args.input.isPrivate,
-          createdBy: '5ef00af4166c4d48939750b6',
+          createdBy: '5eff6fd260041e1a1f114b34',
         });
         const result = await tradeList.save();
 

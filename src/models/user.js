@@ -22,13 +22,12 @@ const userSchema = new Schema(
       type: String,
       required: true,
     },
-    team: {
-      type: String,
-      required: true,
-    },
+    trainerTeam: String,
     trainerCode: String,
-    latitude: Number,
-    longtitude: Number,
+    trainerLevel: Number,
+    locLatitude: Number,
+    locLongtitude: Number,
+    telegram: String,
     followers: [
       {
         type: Schema.Types.ObjectId,
