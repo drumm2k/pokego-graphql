@@ -39,13 +39,13 @@ const typeDefs = gql`
     locLatitude: Float
     locLongtitude: Float
     telegram: String
-    followers: [Follow]
-    following: [Follow]
-    tradeLists: [TradeList!]!
+    followers: [Follow]!
+    following: [Follow]!
+    tradeLists: [TradeList]!
     isBanned: Boolean
     isOnline: Boolean
     createdAt: String!
-    updatedAt: String!
+    updatedAt: String
   }
 
   input UserInput {
@@ -77,15 +77,15 @@ const typeDefs = gql`
 
   type TradeList {
     id: ID!
-    pokemons: [String]!
+    pokemons: [Pkmn]!
     description: String!
     isPrivate: Boolean
     createdBy: User!
   }
 
   input TradeListInput {
-    pokemons: [String]!
-    description: String!
+    pokemons: [ID!]!
+    description: String
     isPrivate: Boolean
   }
 

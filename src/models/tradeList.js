@@ -5,8 +5,8 @@ const { Schema } = mongoose;
 const tradeListSchema = new Schema(
   {
     pokemons: {
-      type: [String],
-      required: true,
+      type: [Schema.Types.ObjectId],
+      ref: 'Pkmn',
     },
     description: {
       type: String,

@@ -28,10 +28,25 @@ const user = async (userId) => {
   }
 };
 
+const pokemon = async (pokemonId) => {
+  try {
+    const pkmn = await Pkmn.find({ _id: { $in: pokemonId } });
+    return pkmn.map((poke) => {
+      return {
+        ...poke._doc,
+        id: poke.id,
+      };
+    });
+  } catch (error) {
+    throw error;
+  }
+};
+
 const transformTradeList = (tradeList) => {
   return {
     ...tradeList._doc,
     id: tradeList.id,
+    pokemons: pokemon.bind(this, tradeList.pokemons),
     createdBy: user.bind(this, tradeList.createdBy),
   };
 };
