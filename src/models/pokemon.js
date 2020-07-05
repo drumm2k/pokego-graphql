@@ -68,6 +68,14 @@ const pokemonSchema = new Schema({
   kmBuddyDistance: {
     type: Number,
   },
+  evolutionBranch: [
+    {
+      evolution: { type: String },
+      evolutionItemRequirement: { type: String },
+      candyCost: { type: Number },
+      form: { type: String },
+    },
+  ],
   thirdMoveStardust: {
     type: Number,
   },

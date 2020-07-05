@@ -355,6 +355,7 @@ module.exports = {
           parentId: args.input.parentId,
           familyId: args.input.familyId,
           kmBuddyDistance: args.input.kmBuddyDistance,
+          evolutionBranch: args.evolutionBranch,
           thirdMoveStardust: args.input.thirdMoveStardust,
           thirdMoveCandy: args.input.thirdMoveCandy,
         });
@@ -384,6 +385,7 @@ module.exports = {
           parentId: pokemon.parentId,
           familyId: pokemon.familyId,
           kmBuddyDistance: pokemon.kmBuddyDistance,
+          evolutionBranch: pokemon.evolutionBranch,
           thirdMoveStardust: pokemon.thirdMoveStardust,
           thirdMoveCandy: pokemon.thirdMoveCandy,
         });
@@ -409,6 +411,7 @@ module.exports = {
           parentId: pokemon.parentId,
           familyId: pokemon.familyId,
           kmBuddyDistance: pokemon.kmBuddyDistance,
+          evolutionBranch: pokemon.evolutionBranch,
           thirdMoveStardust: pokemon.thirdMoveStardust,
           thirdMoveCandy: pokemon.thirdMoveCandy,
         });
@@ -434,6 +437,7 @@ module.exports = {
           parentId: pokemon.parentId,
           familyId: pokemon.familyId,
           kmBuddyDistance: pokemon.kmBuddyDistance,
+          evolutionBranch: pokemon.evolutionBranch,
           thirdMoveStardust: pokemon.thirdMoveStardust,
           thirdMoveCandy: pokemon.thirdMoveCandy,
         });

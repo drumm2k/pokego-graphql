@@ -112,6 +112,7 @@ const typeDefs = gql`
     parentId: String
     familyId: String
     kmBuddyDistance: Int
+    evolutionBranch: [EvolutionBranch]!
     thirdMoveStardust: Int
     thirdMoveCandy: Int
   }
@@ -133,14 +134,23 @@ const typeDefs = gql`
     parentId: String
     familyId: String
     kmBuddyDistance: Int
+    evolutionBranch: [EvolutionBranchInput]
     thirdMoveStardust: Int
     thirdMoveCandy: Int
   }
 
   type EvolutionBranch {
-    evolution: String!
-    candyCost: Int!
-    form: String!
+    evolution: String
+    evolutionItemRequirement: String
+    candyCost: Int
+    form: String
+  }
+
+  input EvolutionBranchInput {
+    evolution: String
+    evolutionItemRequirement: String
+    candyCost: Int
+    form: String
   }
 
   type Pokemon {
