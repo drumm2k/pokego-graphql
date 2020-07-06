@@ -7,6 +7,7 @@ const typeDefs = gql`
     getTradeLists: [TradeList!]!
     getPkmns: [Pkmn!]!
     getPkmnByName(name: String!): Pkmn
+    getRds: [Tier]
     getPokemons: [Pokemon!]!
     getPokemonsPure: [Pokemon!]!
     getPokemonById(id: ID): Pokemon
@@ -27,6 +28,7 @@ const typeDefs = gql`
     deleteFollow(input: DeleteFollowInput!): Follow
     createPkmn(input: PkmnInput!): Pkmn
     initPkmn: [Pkmn]
+    initRds: [Tier]
   }
 
   type User {
@@ -204,6 +206,20 @@ const typeDefs = gql`
   type CurrentMovesets {
     quickMove: String
     cinematicMove: String
+  }
+
+  type Tier {
+    id: ID!
+    tier: String
+    rds: [Rds]
+  }
+
+  type Rds {
+    id: ID!
+    pokemon: String
+    cp: Int
+    shiny: Boolean
+    verified: Boolean
   }
 
   type Raid {

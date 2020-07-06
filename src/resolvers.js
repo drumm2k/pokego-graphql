@@ -1,14 +1,16 @@
 var pokemons = require('../lib/pokemon.json');
-var raids = require('../lib/raids.json');
+// var raids = require('../lib/raids.json');
 var events = require('../lib/events.json');
 var pkmns = require('../lib/pokemons.json');
 
+import fetch from 'node-fetch';
 import bcrypt from 'bcryptjs';
 
 import User from './models/user';
 import Follow from './models/follow';
 import TradeList from './models/tradeList';
 import Pkmn from './models/pokemon';
+import Rd from './models/raid';
 
 const user = async (userId) => {
   try {
@@ -114,24 +116,24 @@ module.exports = {
       }
     },
     getUsers: async () => {
-      return User.find()
-        .then((users) => {
-          return users.map((user) => {
-            return {
-              ...user._doc,
-              password: null,
-              id: user.id,
-              tradeLists: tradeLists.bind(this, user._doc.tradeLists),
-              followers: followers.bind(this, user._doc.followers),
-              following: following.bind(this, user._doc.following),
-              createdAt: new Date(user._doc.createdAt).toISOString(),
-              updatedAt: new Date(user._doc.updatedAt).toISOString(),
-            };
-          });
-        })
-        .catch((error) => {
-          throw error;
+      try {
+        const users = await User.find();
+        const res = users.map((user) => {
+          return {
+            ...user._doc,
+            id: user.id,
+            password: null,
+            tradeLists: tradeLists.bind(this, user.tradeLists),
+            followers: followers.bind(this, user._doc.followers),
+            following: following.bind(this, user._doc.following),
+            createdAt: new Date(user._doc.createdAt).toISOString(),
+            updatedAt: new Date(user._doc.updatedAt).toISOString(),
+          };
         });
+        return res;
+      } catch (error) {
+        throw error;
+      }
     },
     getTradeLists: async () => {
       try {
@@ -166,6 +168,20 @@ module.exports = {
           ...pkmn._doc,
           id: pkmn.id,
         };
+      } catch (error) {
+        throw error;
+      }
+    },
+    getRds: async () => {
+      try {
+        const raids = await Rd.find().sort({ tier: 1 });
+
+        return raids.map((tier) => {
+          return {
+            ...tier._doc,
+            id: tier.id,
+          };
+        });
       } catch (error) {
         throw error;
       }
@@ -457,6 +473,32 @@ module.exports = {
 
         return pkmn;
       });
+    },
+    initRds: async () => {
+      try {
+        const raids = await fetch('https://fight.pokebattler.com/raids');
+        const raidsData = await raids.json();
+
+        // Filter raids level 1-5
+        const levels = [1, 2, 3, 4, 5];
+        const raidList = levels.map((level) =>
+          raidsData.tiers.find((raid) => raid.tier === `RAID_LEVEL_${level}`)
+        );
+
+        const res = await raidList.map((tier) => {
+          const rd = new Rd({
+            tier: tier.tier,
+            rds: tier.raids,
+          });
+
+          rd.save();
+          return { ...rd._doc, id: rd.id };
+        });
+
+        return res;
+      } catch (error) {
+        throw error;
+      }
     },
   },
 };
