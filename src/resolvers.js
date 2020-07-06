@@ -158,6 +158,18 @@ module.exports = {
         throw error;
       }
     },
+    getPkmnByName: async (parent, args, context, info) => {
+      try {
+        const pkmn = await Pkmn.findOne({ name: args.name });
+        console.log(pkmn);
+        return {
+          ...pkmn._doc,
+          id: pkmn.id,
+        };
+      } catch (error) {
+        throw error;
+      }
+    },
     getPokemons: () => pokemons.pokemon,
     getPokemonsPure: () => {
       let res = [];

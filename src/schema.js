@@ -6,6 +6,7 @@ const typeDefs = gql`
     getUsers: [User!]!
     getTradeLists: [TradeList!]!
     getPkmns: [Pkmn!]!
+    getPkmnByName(name: String!): Pkmn
     getPokemons: [Pokemon!]!
     getPokemonsPure: [Pokemon!]!
     getPokemonById(id: ID): Pokemon
