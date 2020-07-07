@@ -8,11 +8,12 @@ const raidSchema = new Schema(
       type: String,
       required: true,
     },
-    rds: [
+    raids: [
       {
         pokemon: {
-          type: String,
-          required: true,
+          // type: String,
+          type: Schema.Types.ObjectId,
+          ref: 'Pkmn',
         },
         cp: {
           type: Number,
@@ -29,4 +30,4 @@ const raidSchema = new Schema(
   { timestamps: true }
 );
 
-module.exports = mongoose.model('Rd', raidSchema);
+module.exports = mongoose.model('Raid', raidSchema);

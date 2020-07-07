@@ -1,5 +1,5 @@
-var pokemons = require('../lib/pokemon.json');
-// var raids = require('../lib/raids.json');
+// var pokemons = require('../lib/pokemon.json');
+var raidsData = require('../lib/raids.json');
 var events = require('../lib/events.json');
 var pkmns = require('../lib/pokemons.json');
 
@@ -10,7 +10,7 @@ import User from './models/user';
 import Follow from './models/follow';
 import TradeList from './models/tradeList';
 import Pkmn from './models/pokemon';
-import Rd from './models/raid';
+import Raid from './models/raid';
 
 const user = async (userId) => {
   try {
@@ -96,6 +96,22 @@ const following = async (followingIds) => {
   }
 };
 
+const raidPokemon = async (raid) => {
+  try {
+    const pkmnName = raid.pokemon.replace('_FORM', '');
+    const pkmn = await Pkmn.findOne({ name: pkmnName });
+
+    return {
+      pokemon: pkmn._id,
+      cp: raid.cp,
+      shiny: raid.shiny,
+      verified: raid.verified,
+    };
+  } catch (error) {
+    throw error;
+  }
+};
+
 module.exports = {
   Query: {
     getUser: async (parent, args, context, info) => {
@@ -163,7 +179,6 @@ module.exports = {
     getPkmnByName: async (parent, args, context, info) => {
       try {
         const pkmn = await Pkmn.findOne({ name: args.name });
-        console.log(pkmn);
         return {
           ...pkmn._doc,
           id: pkmn.id,
@@ -174,9 +189,11 @@ module.exports = {
     },
     getRds: async () => {
       try {
-        const raids = await Rd.find().sort({ tier: 1 });
+        const raids = await Raid.find()
+          .sort({ tier: 1 })
+          .populate({ path: 'raids', populate: { path: 'pokemon' } });
 
-        return raids.map((tier) => {
+        return raids.map(async (tier) => {
           return {
             ...tier._doc,
             id: tier.id,
@@ -185,72 +202,6 @@ module.exports = {
       } catch (error) {
         throw error;
       }
-    },
-    getPokemons: () => pokemons.pokemon,
-    getPokemonsPure: () => {
-      let res = [];
-      pokemons.pokemon.map((pokemon) => {
-        if (!pokemon.pokemonId.includes('FORM')) res.push(pokemon);
-      });
-
-      return res;
-    },
-    getPokemonById(parent, args, context, info) {
-      return pokemons.pokemon.find(
-        (pokemon) => pokemon.pokedex.pokemonNum === parseInt(args.id)
-      );
-    },
-    getPokemonByName(parent, args, context, info) {
-      return pokemons.pokemon.find((pokemon) => pokemon.pokemonId === args.name);
-    },
-    getPokemonGroupByName(parent, args, context, info) {
-      const res = args.names.map((name) =>
-        pokemons.pokemon.find((pokemon) => pokemon.pokemonId === name)
-      );
-
-      return res;
-    },
-    getRaids: () => raids.tiers,
-    getRaidTier(parent, args, context, info) {
-      return raids.tiers.find((raid) => raid.tier === `RAID_LEVEL_${args.tier}`);
-    },
-    getRaidTiers() {
-      const levels = [1, 2, 3, 4, 5];
-
-      const res = levels.map((level) =>
-        raids.tiers.find((raid) => raid.tier === `RAID_LEVEL_${level}`)
-      );
-      // console.log(res);
-      return res;
-    },
-    getRaidsFull() {
-      const levels = [1, 2, 3, 4, 5];
-
-      // Filter raids level 1-5
-      const raidList = levels.map((level) =>
-        raids.tiers.find((raid) => raid.tier === `RAID_LEVEL_${level}`)
-      );
-
-      // Get pokemon names
-      const pokemonList = raidList.map((tier) =>
-        tier.raids.map((pokemon) => pokemon.pokemon)
-      );
-
-      // Find pokemons with the same name and get the data
-      const pokemonsData = [];
-      pokemonList.map((tier) =>
-        tier.map((name) =>
-          pokemons.pokemon.find((pokemon) => {
-            if (pokemon.pokemonId === name) pokemonsData.push(pokemon);
-          })
-        )
-      );
-
-      let res = {};
-      res['raids'] = raidList;
-      res['pokemons'] = pokemonsData;
-
-      return res;
     },
     getEvents(parent, args, context, info) {
       return events.events;
@@ -474,10 +425,10 @@ module.exports = {
         return pkmn;
       });
     },
-    initRds: async () => {
+    initRds: () => {
       try {
-        const raids = await fetch('https://fight.pokebattler.com/raids');
-        const raidsData = await raids.json();
+        // const raids = await fetch('https://fight.pokebattler.com/raids');
+        // const raidsData = await raids.json();
 
         // Filter raids level 1-5
         const levels = [1, 2, 3, 4, 5];
@@ -485,17 +436,20 @@ module.exports = {
           raidsData.tiers.find((raid) => raid.tier === `RAID_LEVEL_${level}`)
         );
 
-        const res = await raidList.map((tier) => {
-          const rd = new Rd({
-            tier: tier.tier,
-            rds: tier.raids,
+        return raidList.map(async (tier) => {
+          const raidResult = tier.raids.map((raid) => {
+            return raidPokemon(raid);
           });
 
-          rd.save();
-          return { ...rd._doc, id: rd.id };
-        });
+          const raid = new Raid({
+            tier: tier.tier,
+            raids: await Promise.all(raidResult),
+          });
 
-        return res;
+          raid.save();
+
+          return { ...raid._doc, id: raid.id };
+        });
       } catch (error) {
         throw error;
       }
