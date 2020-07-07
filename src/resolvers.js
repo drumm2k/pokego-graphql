@@ -1,5 +1,5 @@
 // var pokemons = require('../lib/pokemon.json');
-var raidsData = require('../lib/raids.json');
+// var raidsData = require('../lib/raids.json');
 var events = require('../lib/events.json');
 var pkmns = require('../lib/pokemons.json');
 
@@ -425,10 +425,10 @@ module.exports = {
         return pkmn;
       });
     },
-    initRds: () => {
+    initRds: async () => {
       try {
-        // const raids = await fetch('https://fight.pokebattler.com/raids');
-        // const raidsData = await raids.json();
+        const raids = await fetch('https://fight.pokebattler.com/raids');
+        const raidsData = await raids.json();
 
         // Filter raids level 1-5
         const levels = [1, 2, 3, 4, 5];
