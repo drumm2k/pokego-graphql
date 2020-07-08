@@ -11,7 +11,6 @@ const raidSchema = new Schema(
     raids: [
       {
         pokemon: {
-          // type: String,
           type: Schema.Types.ObjectId,
           ref: 'Pkmn',
         },

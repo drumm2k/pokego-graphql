@@ -131,6 +131,7 @@ const typeDefs = gql`
   type EvolutionBranch {
     evolution: String
     evolutionItemRequirement: String
+    lureItemRequirement: String
     candyCost: Int
     form: String
   }
@@ -138,6 +139,7 @@ const typeDefs = gql`
   input EvolutionBranchInput {
     evolution: String
     evolutionItemRequirement: String
+    lureItemRequirement: String
     candyCost: Int
     form: String
   }

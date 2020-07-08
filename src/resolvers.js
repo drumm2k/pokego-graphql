@@ -289,7 +289,7 @@ module.exports = {
     },
     createTradeList: async (parent, args, context, info) => {
       try {
-        const createdBy = await User.findById('5eff6fd260041e1a1f114b34');
+        const createdBy = await User.findById('5f053bc0eb6a1b3f85cadae5');
         if (!createdBy) {
           throw new Error('User not found.');
         }
@@ -298,7 +298,7 @@ module.exports = {
           pokemons: args.input.pokemons,
           description: args.input.description,
           isPrivate: args.input.isPrivate,
-          createdBy: '5eff6fd260041e1a1f114b34',
+          createdBy: '5f053bc0eb6a1b3f85cadae5',
         });
         const result = await tradeList.save();
 

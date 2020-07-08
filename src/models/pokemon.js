@@ -72,6 +72,7 @@ const pokemonSchema = new Schema({
     {
       evolution: { type: String },
       evolutionItemRequirement: { type: String },
+      lureItemRequirement: { type: String },
       candyCost: { type: Number },
       form: { type: String },
     },
