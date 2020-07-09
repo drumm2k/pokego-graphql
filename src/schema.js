@@ -5,9 +5,9 @@ const typeDefs = gql`
     getUser(userName: String!): User!
     getUsers: [User!]!
     getTradeLists: [TradeList!]!
-    getPkmns: [Pkmn!]!
-    getPkmnByName(name: String!): Pkmn!
-    getRds: [Tier!]!
+    getPokemons: [Pokemon!]!
+    getPokemonByName(name: String!): Pokemon!
+    getRaids: [Tier!]!
     getEvents: [Event!]!
     getEvent(id: ID!): Event!
   }
@@ -17,9 +17,9 @@ const typeDefs = gql`
     createTradeList(input: TradeListInput!): TradeList
     createFollow(input: CreateFollowInput!): Follow
     deleteFollow(input: DeleteFollowInput!): Follow
-    createPkmn(input: PkmnInput!): Pkmn
-    initPkmn: [Pkmn]
-    initRds: [Tier]
+    createPokemon(input: PokemonInput!): Pokemon
+    initPokemons: [Pokemon]
+    initRaids: [Tier]
   }
 
   type User {
@@ -71,7 +71,7 @@ const typeDefs = gql`
 
   type TradeList {
     id: ID!
-    pokemons: [Pkmn]!
+    pokemons: [Pokemon]!
     description: String!
     isPrivate: Boolean
     createdBy: User!
@@ -83,8 +83,9 @@ const typeDefs = gql`
     isPrivate: Boolean
   }
 
-  type Pkmn {
+  type Pokemon {
     id: ID!
+    templateId: String!
     name: String!
     pokedex: Int!
     gen: String!
@@ -106,7 +107,8 @@ const typeDefs = gql`
     thirdMoveCandy: Int
   }
 
-  input PkmnInput {
+  input PokemonInput {
+    templateId: String!
     name: String!
     pokedex: Int!
     gen: String!
@@ -147,12 +149,12 @@ const typeDefs = gql`
   type Tier {
     id: ID!
     tier: String
-    raids: [Rds]
+    raids: [Raid]
   }
 
-  type Rds {
+  type Raid {
     id: ID!
-    pokemon: Pkmn
+    pokemon: Pokemon
     cp: Int
     shiny: Boolean
     verified: Boolean

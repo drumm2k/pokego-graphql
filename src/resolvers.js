@@ -9,7 +9,7 @@ import bcrypt from 'bcryptjs';
 import User from './models/user';
 import Follow from './models/follow';
 import TradeList from './models/tradeList';
-import Pkmn from './models/pokemon';
+import Pokemon from './models/pokemon';
 import Raid from './models/raid';
 
 const user = async (userId) => {
@@ -32,11 +32,11 @@ const user = async (userId) => {
 
 const pokemon = async (pokemonId) => {
   try {
-    const pkmn = await Pkmn.find({ _id: { $in: pokemonId } });
-    return pkmn.map((poke) => {
+    const pokemons = await Pokemon.find({ _id: { $in: pokemonId } });
+    return pokemons.map((pokemon) => {
       return {
-        ...poke._doc,
-        id: poke.id,
+        ...pokemon._doc,
+        id: pokemon.id,
       };
     });
   } catch (error) {
@@ -98,11 +98,11 @@ const following = async (followingIds) => {
 
 const raidPokemon = async (raid) => {
   try {
-    const pkmnName = raid.pokemon.replace('_FORM', '');
-    const pkmn = await Pkmn.findOne({ name: pkmnName });
+    const pokemonName = raid.pokemon.replace('_FORM', '');
+    const pokemon = await Pokemon.findOne({ name: pokemonName });
 
     return {
-      pokemon: pkmn._id,
+      pokemon: pokemon._id,
       cp: raid.cp,
       shiny: raid.shiny,
       verified: raid.verified,
@@ -162,32 +162,32 @@ module.exports = {
         throw error;
       }
     },
-    getPkmns: async () => {
+    getPokemons: async () => {
       try {
-        const pkmns = await Pkmn.find().sort({ gen: 1, pokedex: 1 });
+        const pokemons = await Pokemon.find().sort({ gen: 1, pokedex: 1 });
 
-        return pkmns.map((pkmn) => {
+        return pokemons.map((pokemon) => {
           return {
-            ...pkmn._doc,
-            id: pkmn.id,
+            ...pokemon._doc,
+            id: pokemon.id,
           };
         });
       } catch (error) {
         throw error;
       }
     },
-    getPkmnByName: async (parent, args, context, info) => {
+    getPokemonByName: async (parent, args, context, info) => {
       try {
-        const pkmn = await Pkmn.findOne({ name: args.name });
+        const pokemon = await Pokemon.findOne({ name: args.name });
         return {
-          ...pkmn._doc,
-          id: pkmn.id,
+          ...pokemon._doc,
+          id: pokemon.id,
         };
       } catch (error) {
         throw error;
       }
     },
-    getRds: async () => {
+    getRaids: async () => {
       try {
         const raids = await Raid.find()
           .sort({ tier: 1 })
@@ -315,9 +315,10 @@ module.exports = {
         throw error;
       }
     },
-    createPkmn: async (parent, args, context, info) => {
+    createPokemon: async (parent, args, context, info) => {
       try {
-        const pkmn = new Pkmn({
+        const pokemon = new Pokemon({
+          templateId: args.input.templateId,
           name: args.input.name,
           pokedex: args.input.pokedex,
           gen: args.input.gen,
@@ -339,15 +340,16 @@ module.exports = {
           thirdMoveCandy: args.input.thirdMoveCandy,
         });
 
-        await pkmn.save();
-        return pkmn;
+        await pokemon.save();
+        return pokemon;
       } catch (error) {
         throw error;
       }
     },
-    initPkmn: async () => {
+    initPokemons: async () => {
       await pkmns.pokemons.map((pokemon) => {
-        const pkmn = new Pkmn({
+        const poke = new Pokemon({
+          templateId: pokemon.templateId,
           name: pokemon.name,
           pokedex: pokemon.pokedex,
           gen: pokemon.gen,
@@ -368,12 +370,13 @@ module.exports = {
           thirdMoveStardust: pokemon.thirdMoveStardust,
           thirdMoveCandy: pokemon.thirdMoveCandy,
         });
-        pkmn.save();
+        poke.save();
 
-        return pkmn;
+        return poke;
       });
       await pkmns.pokemons_alola.map((pokemon) => {
-        const pkmn = new Pkmn({
+        const poke = new Pokemon({
+          templateId: pokemon.templateId,
           name: pokemon.name,
           pokedex: pokemon.pokedex,
           gen: pokemon.gen,
@@ -394,12 +397,13 @@ module.exports = {
           thirdMoveStardust: pokemon.thirdMoveStardust,
           thirdMoveCandy: pokemon.thirdMoveCandy,
         });
-        pkmn.save();
+        poke.save();
 
-        return pkmn;
+        return poke;
       });
       await pkmns.pokemons_galarian.map((pokemon) => {
-        const pkmn = new Pkmn({
+        const poke = new Pokemon({
+          templateId: pokemon.templateId,
           name: pokemon.name,
           pokedex: pokemon.pokedex,
           gen: pokemon.gen,
@@ -420,12 +424,12 @@ module.exports = {
           thirdMoveStardust: pokemon.thirdMoveStardust,
           thirdMoveCandy: pokemon.thirdMoveCandy,
         });
-        pkmn.save();
+        poke.save();
 
-        return pkmn;
+        return poke;
       });
     },
-    initRds: async () => {
+    initRaids: async () => {
       try {
         const raids = await fetch('https://fight.pokebattler.com/raids');
         const raidsData = await raids.json();

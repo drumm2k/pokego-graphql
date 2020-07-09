@@ -3,6 +3,10 @@ import mongoose from 'mongoose';
 const { Schema } = mongoose;
 
 const pokemonSchema = new Schema({
+  templateId: {
+    type: String,
+    required: true,
+  },
   name: {
     type: String,
     required: true,
@@ -85,4 +89,4 @@ const pokemonSchema = new Schema({
   },
 });
 
-module.exports = mongoose.model('Pkmn', pokemonSchema);
+module.exports = mongoose.model('Pokemon', pokemonSchema);

@@ -12,7 +12,7 @@ const raidSchema = new Schema(
       {
         pokemon: {
           type: Schema.Types.ObjectId,
-          ref: 'Pkmn',
+          ref: 'Pokemon',
         },
         cp: {
           type: Number,

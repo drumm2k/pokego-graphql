@@ -6,7 +6,7 @@ const tradeListSchema = new Schema(
   {
     pokemons: {
       type: [Schema.Types.ObjectId],
-      ref: 'Pkmn',
+      ref: 'Pokemon',
     },
     description: {
       type: String,
