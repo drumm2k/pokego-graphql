@@ -214,21 +214,18 @@ module.exports = {
     createUser: async (parent, args, context, info) => {
       try {
         const existingUser = await User.findOne({ email: args.input.email });
-
         if (existingUser) {
           throw new Error('User already exists.');
         }
+
         const hashedPassword = await bcrypt.hash(args.input.password, 12);
 
         const user = new User({
           userName: args.input.userName,
           email: args.input.email,
           password: hashedPassword,
-          trainerTeam: args.input.trainerTeam,
-          trainerCode: args.input.trainerCode,
-          trainerLevel: args.input.trainerLevel,
-          locLatitude: args.input.locLatitude,
-          locLongtitude: args.input.locLongtitude,
+          trainer: args.input.trainer,
+          location: args.input.location,
           telegram: args.input.telegram,
         });
 
@@ -289,7 +286,7 @@ module.exports = {
     },
     createTradeList: async (parent, args, context, info) => {
       try {
-        const createdBy = await User.findById('5f053bc0eb6a1b3f85cadae5');
+        const createdBy = await User.findById('5f07d864237fa2330e36290f');
         if (!createdBy) {
           throw new Error('User not found.');
         }
@@ -298,7 +295,7 @@ module.exports = {
           pokemons: args.input.pokemons,
           description: args.input.description,
           isPrivate: args.input.isPrivate,
-          createdBy: '5f053bc0eb6a1b3f85cadae5',
+          createdBy: '5f07d864237fa2330e36290f',
         });
         const result = await tradeList.save();
 

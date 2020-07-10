@@ -22,11 +22,25 @@ const userSchema = new Schema(
       type: String,
       required: true,
     },
-    trainerTeam: String,
-    trainerCode: String,
-    trainerLevel: Number,
-    locLatitude: Number,
-    locLongtitude: Number,
+    trainer: {
+      team: {
+        type: String,
+      },
+      level: {
+        type: Number,
+      },
+      code: {
+        type: String,
+      },
+    },
+    location: {
+      latitude: {
+        type: Number,
+      },
+      longtitude: {
+        type: Number,
+      },
+    },
     telegram: String,
     followers: [
       {

@@ -27,11 +27,8 @@ const typeDefs = gql`
     userName: String!
     email: String!
     password: String
-    trainerTeam: String
-    trainerCode: String
-    trainerLevel: Int
-    locLatitude: Float
-    locLongtitude: Float
+    trainer: Trainer
+    location: Location
     telegram: String
     followers: [Follow]!
     following: [Follow]!
@@ -46,12 +43,31 @@ const typeDefs = gql`
     userName: String!
     email: String!
     password: String!
-    trainerTeam: String
-    trainerCode: String
-    trainerLevel: Int
-    locLatitude: Float
-    locLongtitude: Float
+    trainer: TrainerInput
+    location: LocationInput
     telegram: String
+  }
+
+  type Trainer {
+    team: String
+    level: Int
+    code: String
+  }
+
+  input TrainerInput {
+    team: String
+    level: Int
+    code: String
+  }
+
+  type Location {
+    latitude: Float
+    longtitude: Float
+  }
+
+  input LocationInput {
+    latitude: Float
+    longtitude: Float
   }
 
   type Follow {
