@@ -4,8 +4,8 @@ import { express as voyagerMiddleware } from 'graphql-voyager/middleware';
 import mongoose from 'mongoose';
 require('./config');
 
-const typeDefs = require('./schema');
-const resolvers = require('./resolvers');
+import typeDefs from './schema';
+import resolvers from './resolvers';
 
 const server = new ApolloServer({
   typeDefs,

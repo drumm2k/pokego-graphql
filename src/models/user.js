@@ -22,6 +22,10 @@ const userSchema = new Schema(
       type: String,
       required: true,
     },
+    confirmed: {
+      type: Boolean,
+      default: false,
+    },
     trainer: {
       team: {
         type: String,

@@ -1,9 +1,10 @@
-const { gql } = require('apollo-server-express');
+import { gql } from 'apollo-server-express';
 
 const typeDefs = gql`
   type Query {
     getUser(userName: String!): User!
     getUsers: [User!]!
+    login(email: String!, password: String!): AuthData!
     getTradeLists: [TradeList!]!
     getPokemons: [Pokemon!]!
     getPokemonByName(name: String!): Pokemon!
@@ -27,6 +28,7 @@ const typeDefs = gql`
     userName: String!
     email: String!
     password: String
+    confirmed: Boolean!
     trainer: Trainer
     location: Location
     telegram: String
@@ -36,7 +38,13 @@ const typeDefs = gql`
     isBanned: Boolean
     isOnline: Boolean
     createdAt: String!
-    updatedAt: String
+    updatedAt: String!
+  }
+
+  type AuthData {
+    userId: ID!
+    token: String!
+    tokenExpritation: Int!
   }
 
   input UserInput {
