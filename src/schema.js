@@ -107,6 +107,7 @@ const typeDefs = gql`
     gen: String!
     shiny: Boolean!
     released: Boolean!
+    tradable: Boolean!
     type1: String!
     type2: String
     baseStamina: Int!
@@ -130,6 +131,7 @@ const typeDefs = gql`
     gen: String!
     shiny: Boolean!
     released: Boolean!
+    tradable: Boolean!
     type1: String!
     type2: String
     baseStamina: Int!

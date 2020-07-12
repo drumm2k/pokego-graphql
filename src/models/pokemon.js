@@ -27,6 +27,10 @@ const pokemonSchema = new Schema({
     type: Boolean,
     required: true,
   },
+  tradable: {
+    type: Boolean,
+    required: true,
+  },
   type1: {
     type: String,
     required: true,
