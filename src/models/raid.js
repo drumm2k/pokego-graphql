@@ -29,4 +29,4 @@ const raidSchema = new Schema(
   { timestamps: true }
 );
 
-module.exports = mongoose.model('Raid', raidSchema);
+export default mongoose.model('Raid', raidSchema);

@@ -1,14 +1,27 @@
+import {} from 'dotenv/config';
 import express from 'express';
 import { ApolloServer } from 'apollo-server-express';
 import { express as voyagerMiddleware } from 'graphql-voyager/middleware';
 import mongoose from 'mongoose';
-require('./config');
 
-import typeDefs from './schema';
+import schema from './schema';
 import resolvers from './resolvers';
 
+// Connect to DB
+mongoose
+  .connect(process.env.MONGO_URI, {
+    useUnifiedTopology: true,
+    useNewUrlParser: true,
+    useCreateIndex: true,
+    useFindAndModify: false,
+  })
+  .then(() => console.log(`Connected to DB at ${process.env.MONGO_URI}`))
+  .catch((err) => {
+    console.log(`DB connection error: ${err.message}`);
+  });
+
 const server = new ApolloServer({
-  typeDefs,
+  typeDefs: schema,
   resolvers,
   // introspection: true,
   // playground: true,

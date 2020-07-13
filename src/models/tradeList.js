@@ -18,4 +18,4 @@ const tradeListSchema = new Schema(
   { timestamps: true }
 );
 
-module.exports = mongoose.model('TradeList', tradeListSchema);
+export default mongoose.model('TradeList', tradeListSchema);

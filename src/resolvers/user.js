@@ -32,10 +32,9 @@ const userResolver = {
         throw error;
       }
     },
-    login: async ({ email, password }) => {},
   },
   Mutation: {
-    createUser: async (parent, args, context, info) => {
+    signUp: async (parent, args, context, info) => {
       try {
         const existingUser = await User.findOne({ email: args.input.email });
         if (existingUser) {
@@ -69,6 +68,7 @@ const userResolver = {
         throw error;
       }
     },
+    signIn: async ({ email, password }) => {},
   },
 };
 
