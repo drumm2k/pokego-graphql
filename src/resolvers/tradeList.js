@@ -18,8 +18,11 @@ const tradeListResolver = {
   },
   Mutation: {
     createTradeList: async (parent, args, context, info) => {
+      if (!context.user) {
+        throw new Error('Unathenticated');
+      }
       try {
-        const createdBy = await User.findById('5f0b7c72485aa61cf1f1a5a5');
+        const createdBy = await User.findById(context.user.id);
         if (!createdBy) {
           throw new Error('User not found.');
         }
@@ -28,7 +31,7 @@ const tradeListResolver = {
           pokemons: args.input.pokemons,
           description: args.input.description,
           isPrivate: args.input.isPrivate,
-          createdBy: '5f0b7c72485aa61cf1f1a5a5',
+          createdBy: context.user.id,
         });
         const result = await tradeList.save();
 

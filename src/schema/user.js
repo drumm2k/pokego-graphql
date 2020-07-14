@@ -10,6 +10,7 @@ const UserSchema = gql`
     email: String!
     password: String
     confirmed: Boolean!
+    roles: [String]!
     trainer: Trainer
     location: Location
     telegram: String
@@ -34,15 +35,15 @@ const UserSchema = gql`
   }
 
   type Token {
-    userId: ID!
+    id: ID!
     token: String!
-    tokenExpritation: Int!
+    tokenExpiration: Int!
   }
 
   # *****************************
   # Input Objects
   # *****************************
-  input SignUpInput {
+  input RegisterInput {
     userName: String!
     email: String!
     password: String!
@@ -51,7 +52,7 @@ const UserSchema = gql`
     telegram: String
   }
 
-  input SignInInput {
+  input LoginInput {
     email: String!
     password: String!
   }
@@ -82,11 +83,11 @@ const UserSchema = gql`
   # Mutations
   # *****************************
   extend type Mutation {
-    # Sign up User
-    signUp(input: SignUpInput!): User
+    # Register User
+    register(input: RegisterInput!): User
 
-    # Sign in User
-    signIn(input: SignInInput!): Token!
+    # Log in User
+    login(input: LoginInput!): Token!
   }
 `;
 

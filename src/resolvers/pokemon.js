@@ -31,6 +31,9 @@ const pokemonResolver = {
   },
   Mutation: {
     createPokemon: async (parent, args, context, info) => {
+      if (!context.user || !context.user.roles.includes('admin')) {
+        throw new Error('Unathenticated');
+      }
       try {
         const pokemon = new Pokemon({
           templateId: args.input.templateId,
@@ -62,7 +65,11 @@ const pokemonResolver = {
         throw error;
       }
     },
-    initPokemons: async () => {
+    initPokemons: async (parent, args, context, info) => {
+      if (!context.user || !context.user.roles.includes('admin')) {
+        throw new Error('Unathenticated');
+      }
+
       await pkmns.pokemons.map((pokemon) => {
         const poke = new Pokemon({
           templateId: pokemon.templateId,

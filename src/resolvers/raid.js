@@ -38,7 +38,11 @@ const raidResolver = {
     },
   },
   Mutation: {
-    initRaids: async () => {
+    initRaids: async (parent, args, context, info) => {
+      if (!context.user || !context.user.roles.includes('admin')) {
+        throw new Error('Unathenticated');
+      }
+
       try {
         const raids = await fetch('https://fight.pokebattler.com/raids');
         const raidsData = await raids.json();

@@ -22,6 +22,11 @@ const userSchema = new Schema(
       type: String,
       required: true,
     },
+    roles: [
+      {
+        type: String,
+      },
+    ],
     confirmed: {
       type: Boolean,
       default: false,

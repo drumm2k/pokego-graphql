@@ -1,5 +1,6 @@
 import {} from 'dotenv/config';
 import express from 'express';
+import jwt from 'jsonwebtoken';
 import { ApolloServer } from 'apollo-server-express';
 import { express as voyagerMiddleware } from 'graphql-voyager/middleware';
 import mongoose from 'mongoose';
@@ -20,11 +21,38 @@ mongoose
     console.log(`DB connection error: ${err.message}`);
   });
 
+const checkAuthorization = (token) => {
+  try {
+    const authUser = jwt.verify(token, process.env.JWT_SECRET);
+    if (authUser) {
+      return authUser;
+    }
+  } catch (error) {
+    return;
+  }
+};
+
 const server = new ApolloServer({
   typeDefs: schema,
   resolvers,
   // introspection: true,
   // playground: true,
+  context: async ({ req }) => {
+    // Get the user token from the headers
+    const authHeader = req.headers.authorization || '';
+    if (!authHeader) return;
+
+    // Split token
+    const token = authHeader.split(' ')[1];
+    if (!token || token === '') return;
+
+    // Check authorization
+    const user = checkAuthorization(token);
+    if (!user) return;
+
+    // Add the user to the context
+    return { user };
+  },
 });
 
 const app = express();

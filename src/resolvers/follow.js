@@ -10,6 +10,9 @@ const followResolver = {
       context,
       info
     ) => {
+      if (!context.user) {
+        throw new Error('Unathenticated');
+      }
       try {
         // Need to add check if the follower is the authorized user and this follow is connected to him
         // Check if already following?
@@ -34,6 +37,9 @@ const followResolver = {
       }
     },
     deleteFollow: async (parent, { input: { id } }) => {
+      if (!context.user) {
+        throw new Error('Unathenticated');
+      }
       try {
         // Need to add check if the follower is the authorized user and this follow was created by him
         const follow = await Follow.findByIdAndRemove(id);
