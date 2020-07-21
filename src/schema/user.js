@@ -39,10 +39,6 @@ const UserSchema = gql`
     tokenExpiration: Int!
   }
 
-  type ConfirmStatus {
-    status: Boolean
-  }
-
   # *****************************
   # Input Objects
   # *****************************
@@ -82,7 +78,7 @@ const UserSchema = gql`
     getUser(userName: String!): User!
 
     # Confirm registration
-    confirm(token: String!): ConfirmStatus!
+    confirm(token: String!): Boolean!
   }
 
   # *****************************
@@ -93,7 +89,7 @@ const UserSchema = gql`
     signUp(input: SignUpInput!): User
 
     # Confirm registration
-    confirmResend(email: String!): ConfirmStatus!
+    confirmResend(email: String!): Boolean!
 
     # Log in User
     login(input: LoginInput!): Token!

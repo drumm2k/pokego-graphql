@@ -35,21 +35,18 @@ const userResolver = {
       }
     },
     confirm: async (_parent, { token }, { models }) => {
-      let status;
       try {
         const authUser = await jwt.verify(token, process.env.JWT_SECRET);
-        if (authUser) {
-          await models.User.findByIdAndUpdate(
-            { _id: authUser.id },
-            { confirmed: true }
-          );
-          status = true;
-        }
-      } catch (error) {
-        throw new Error(error);
-      }
+        if (!authUser) return false;
 
-      return { status: status };
+        await models.User.findByIdAndUpdate(
+          { _id: authUser.id },
+          { confirmed: true }
+        );
+        return true;
+      } catch (error) {
+        return false;
+      }
     },
   },
   Mutation: {
@@ -128,7 +125,7 @@ const userResolver = {
           tokenExpiration: 1,
         };
       } catch (error) {
-        throw new Error(error);
+        throw error;
       }
     },
     confirmResend: async (_parent, { email }, { models }) => {
@@ -162,8 +159,7 @@ const userResolver = {
           html: `<div><p>Нажмите на ссылку, чтобы подтвердить ваш адрес:</p><p><a href="${url}">Подтвердить адрес</a></p></div>`,
         });
 
-        const status = true;
-        return { status: status };
+        return true;
       } catch (error) {
         throw error;
       }
