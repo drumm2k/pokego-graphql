@@ -7,6 +7,7 @@ import mongoose from 'mongoose';
 
 import schema from './schema';
 import resolvers from './resolvers';
+import models from './models';
 
 // Connect to DB
 mongoose
@@ -40,18 +41,16 @@ const server = new ApolloServer({
   context: async ({ req }) => {
     // Get the user token from the headers
     const authHeader = req.headers.authorization || '';
-    if (!authHeader) return;
 
-    // Split token
+    // Remove "Bearer " from auth header
     const token = authHeader.split(' ')[1];
-    if (!token || token === '') return;
 
     // Check authorization
     const user = checkAuthorization(token);
-    if (!user) return;
+    if (!user) return { models };
 
-    // Add the user to the context
-    return { user };
+    // Add the user and models to the context
+    return { user, models };
   },
 });
 

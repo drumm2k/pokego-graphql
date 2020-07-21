@@ -2,11 +2,11 @@ const events = require('../../lib/events.json');
 
 const eventResolver = {
   Query: {
-    getEvents(parent, args, context, info) {
+    getEvents(_parent, _args, _context) {
       return events.events;
     },
-    getEvent(obj, args, context, info) {
-      return events.events.find((event) => event.id === parseInt(args.id));
+    getEvent(_parent, { id }, _context) {
+      return events.events.find((event) => event.id === parseInt(id));
     },
   },
   Mutation: {},

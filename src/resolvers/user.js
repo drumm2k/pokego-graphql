@@ -3,7 +3,6 @@ import bcrypt from 'bcryptjs';
 import nodemailer from 'nodemailer';
 import jwt from 'jsonwebtoken';
 
-import User from '../models/user';
 import { user } from './merge';
 
 const transporter = nodemailer.createTransport({
@@ -17,17 +16,17 @@ const transporter = nodemailer.createTransport({
 
 const userResolver = {
   Query: {
-    getUser: async (parent, args, context, info) => {
+    getUser: async (_parent, { userName }, { models }) => {
       try {
-        const userData = await User.findOne({ userName: args.userName });
+        const userData = await models.User.findOne({ userName: userName });
         return user(userData);
       } catch (error) {
         throw error;
       }
     },
-    getUsers: async () => {
+    getUsers: async (_parent, _args, { models }) => {
       try {
-        const usersData = await User.find();
+        const usersData = await models.User.find();
         return usersData.map((userData) => {
           return user(userData);
         });
@@ -35,14 +34,15 @@ const userResolver = {
         throw error;
       }
     },
-    confirm: async (parent, args, context, info) => {
-      const { token } = args;
-
+    confirm: async (_parent, { token }, { models }) => {
       let status;
       try {
         const authUser = await jwt.verify(token, process.env.JWT_SECRET);
         if (authUser) {
-          await User.findByIdAndUpdate({ _id: authUser.id }, { confirmed: true });
+          await models.User.findByIdAndUpdate(
+            { _id: authUser.id },
+            { confirmed: true }
+          );
           status = true;
         }
       } catch (error) {
@@ -53,22 +53,22 @@ const userResolver = {
     },
   },
   Mutation: {
-    register: async (parent, args, context, info) => {
-      const { userName, email, password, trainer, location, telegram } = args.input;
+    signUp: async (_parent, { input }, { models }) => {
+      const { userName, email, password, trainer, location, telegram } = input;
       try {
-        const checkEmail = await User.findOne({ email: email });
+        const checkEmail = await models.User.findOne({ email: email });
         if (checkEmail) {
-          throw new Error('This email address already registred.');
+          throw new Error('This email address already registred');
         }
 
-        const checkUsername = await User.findOne({ userName: userName });
+        const checkUsername = await models.User.findOne({ userName: userName });
         if (checkUsername) {
-          throw new Error('User already exists.');
+          throw new Error('User already exists');
         }
 
         const hashedPassword = await bcrypt.hash(password, 12);
 
-        const user = new User({
+        const user = await models.User.create({
           userName: userName,
           email: email,
           password: hashedPassword,
@@ -76,8 +76,6 @@ const userResolver = {
           location: location,
           telegram: telegram,
         });
-
-        const result = await user.save();
 
         const payload = {
           id: user.id,
@@ -97,16 +95,14 @@ const userResolver = {
           html: `<div><p>Нажмите на ссылку, чтобы подтвердить ваш адрес:</p><p><a href="${url}">Подтвердить адрес</a></p></div>`,
         });
 
-        return { ...result._doc, password: null, id: user.id };
+        return { ...user._doc, password: null, id: user.id };
       } catch (error) {
         throw error;
       }
     },
-    login: async (parent, args, context, info) => {
-      const { email, password } = args.input;
-
+    login: async (_parent, { input: { email, password } }, { models }) => {
       try {
-        const user = await User.findOne({ email: email });
+        const user = await models.User.findOne({ email: email });
         if (!user) {
           throw new Error('Invalid credentials');
         }
@@ -125,16 +121,20 @@ const userResolver = {
           expiresIn: '1h',
         });
 
-        return { id: user.id, token: token, tokenExpiration: 1 };
+        return {
+          userId: user.id,
+          userName: user.userName,
+          token: token,
+          tokenExpiration: 1,
+        };
       } catch (error) {
         throw new Error(error);
       }
     },
-    confirmResend: async (parent, args, context, info) => {
-      const { email } = args;
+    confirmResend: async (_parent, { email }, { models }) => {
       try {
         // Check if User exists
-        const user = await User.findOne({ email: email });
+        const user = await models.User.findOne({ email: email });
         if (!user) {
           throw new Error('Account not found');
         }

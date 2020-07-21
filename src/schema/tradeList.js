@@ -8,7 +8,7 @@ const TradeListSchema = gql`
     id: ID!
     pokemons: [Pokemon]!
     description: String!
-    isPrivate: Boolean
+    isPrivate: Boolean!
     createdBy: User!
   }
 
@@ -33,7 +33,7 @@ const TradeListSchema = gql`
   # *****************************
   extend type Mutation {
     # Create TradeList
-    createTradeList(input: TradeListInput!): TradeList
+    createTradeList(input: TradeListInput!): TradeList!
   }
 `;
 

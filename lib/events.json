@@ -32,7 +32,7 @@
     },
     {
       "id": 11,
-      "name": "Pokémon GO Fest: День 1",
+      "name": "Pokémon GO Fest: 1 День",
       "img": "/images/events/2020-summer-gofest.jpg",
       "imgFull": "",
       "description": "Получите доступ к специальному исследованию доступному только в первый день.",
@@ -42,7 +42,7 @@
     },
     {
       "id": 12,
-      "name": "Pokémon GO Fest: День 2",
+      "name": "Pokémon GO Fest: 2 День",
       "img": "/images/events/2020-summer-gofest.jpg",
       "imgFull": "",
       "description": "Во второй день вас ожидает кое-что особенное, пусть это будет сюрпризом. А также ещё одно специальное исследование.",
@@ -52,7 +52,7 @@
     },
     {
       "id": 13,
-      "name": "GO Fest 2020: Неделя 1",
+      "name": "GO Fest 2020: 1 Неделя",
       "img": "/images/events/jul2020-gofest-challenges.jpg",
       "imgFull": "",
       "description": "Вызов - мастерство.",
@@ -62,7 +62,7 @@
     },
     {
       "id": 14,
-      "name": "GO Fest 2020: Неделя 2",
+      "name": "GO Fest 2020: 2 Неделя",
       "img": "/images/events/jul2020-gofest-challenges.jpg",
       "imgFull": "",
       "description": "Вызов - битвы.",
@@ -72,7 +72,7 @@
     },
     {
       "id": 15,
-      "name": "GO Fest 2020: Неделя 3",
+      "name": "GO Fest 2020: 3 Неделя",
       "img": "/images/events/jul2020-gofest-challenges.jpg",
       "imgFull": "",
       "description": "Вызов - дружба.",

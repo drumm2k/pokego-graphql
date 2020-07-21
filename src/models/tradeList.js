@@ -10,7 +10,7 @@ const tradeListSchema = new Schema(
     },
     description: {
       type: String,
-      required: true,
+      default: '',
     },
     isPrivate: { type: Boolean, default: false },
     createdBy: { type: Schema.Types.ObjectId, ref: 'User' },

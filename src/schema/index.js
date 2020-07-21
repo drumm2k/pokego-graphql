@@ -1,7 +1,6 @@
 import { gql } from 'apollo-server-express';
 
 import EventSchema from './event';
-import FollowSchema from './follow';
 import PokemonSchema from './pokemon';
 import RaidSchema from './raid';
 import TradeListSchema from './tradeList';
@@ -18,7 +17,6 @@ const schema = gql`
     _empty: String
   }
   ${EventSchema}
-  ${FollowSchema}
   ${PokemonSchema}
   ${RaidSchema}
   ${TradeListSchema}

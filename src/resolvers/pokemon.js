@@ -1,12 +1,10 @@
-import Pokemon from '../models/pokemon';
 const pkmns = require('../../lib/pokemons.json');
 
 const pokemonResolver = {
   Query: {
-    getPokemons: async () => {
+    getPokemons: async (_parent, _args, { models }) => {
       try {
-        const pokemons = await Pokemon.find().sort({ gen: 1, pokedex: 1 });
-
+        const pokemons = await models.Pokemon.find().sort({ gen: 1, pokedex: 1 });
         return pokemons.map((pokemon) => {
           return {
             ...pokemon._doc,
@@ -17,9 +15,11 @@ const pokemonResolver = {
         throw error;
       }
     },
-    getPokemonByName: async (parent, args, context, info) => {
+    getPokemonByName: async (_parent, { name }, { models }) => {
+      const nameUpperCase = name.toUpperCase();
       try {
-        const pokemon = await Pokemon.findOne({ name: args.name });
+        const pokemon = await models.Pokemon.findOne({ name: nameUpperCase });
+
         return {
           ...pokemon._doc,
           id: pokemon.id,
@@ -30,48 +30,45 @@ const pokemonResolver = {
     },
   },
   Mutation: {
-    createPokemon: async (parent, args, context, info) => {
-      if (!context.user || !context.user.roles.includes('admin')) {
-        throw new Error('Unathenticated');
+    createPokemon: async (_parent, { input }, { models, user }) => {
+      if (!user || !user.roles.includes('admin')) {
+        throw new Error('Unathorized');
       }
       try {
-        const pokemon = new Pokemon({
-          templateId: args.input.templateId,
-          name: args.input.name,
-          pokedex: args.input.pokedex,
-          gen: args.input.gen,
-          shiny: args.input.shiny,
-          released: args.input.released,
-          tradable: args.input.tradable,
-          type1: args.input.type1,
-          type2: args.input.type2,
-          baseStamina: args.input.baseStamina,
-          baseAttack: args.input.baseAttack,
-          baseDefense: args.input.baseDefense,
-          quickMoves: args.input.quickMoves,
-          cinematicMoves: args.input.cinematicMoves,
-          pokemonClass: args.input.pokemonClass,
-          parentId: args.input.parentId,
-          familyId: args.input.familyId,
-          kmBuddyDistance: args.input.kmBuddyDistance,
-          evolutionBranch: args.evolutionBranch,
-          thirdMoveStardust: args.input.thirdMoveStardust,
-          thirdMoveCandy: args.input.thirdMoveCandy,
+        return await models.Pokemon.create({
+          templateId: input.templateId,
+          name: input.name,
+          pokedex: input.pokedex,
+          gen: input.gen,
+          shiny: input.shiny,
+          released: input.released,
+          tradable: input.tradable,
+          type1: input.type1,
+          type2: input.type2,
+          baseStamina: input.baseStamina,
+          baseAttack: input.baseAttack,
+          baseDefense: input.baseDefense,
+          quickMoves: input.quickMoves,
+          cinematicMoves: input.cinematicMoves,
+          pokemonClass: input.pokemonClass,
+          parentId: input.parentId,
+          familyId: input.familyId,
+          kmBuddyDistance: input.kmBuddyDistance,
+          evolutionBranch: input.evolutionBranch,
+          thirdMoveStardust: input.thirdMoveStardust,
+          thirdMoveCandy: input.thirdMoveCandy,
         });
-
-        await pokemon.save();
-        return pokemon;
       } catch (error) {
         throw error;
       }
     },
-    initPokemons: async (parent, args, context, info) => {
-      if (!context.user || !context.user.roles.includes('admin')) {
-        throw new Error('Unathenticated');
+    initPokemons: async (_parent, _args, { models, user }) => {
+      if (!user || !user.roles.includes('admin')) {
+        throw new Error('Unathorized');
       }
 
-      await pkmns.pokemons.map((pokemon) => {
-        const poke = new Pokemon({
+      await pkmns.pokemons.map(async (pokemon) => {
+        return await models.Pokemon.create({
           templateId: pokemon.templateId,
           name: pokemon.name,
           pokedex: pokemon.pokedex,
@@ -98,8 +95,8 @@ const pokemonResolver = {
 
         return poke;
       });
-      await pkmns.pokemons_alola.map((pokemon) => {
-        const poke = new Pokemon({
+      await pkmns.pokemons_alola.map(async (pokemon) => {
+        return await models.Pokemon.create({
           templateId: pokemon.templateId,
           name: pokemon.name,
           pokedex: pokemon.pokedex,
@@ -126,8 +123,8 @@ const pokemonResolver = {
 
         return poke;
       });
-      await pkmns.pokemons_galarian.map((pokemon) => {
-        const poke = new Pokemon({
+      await pkmns.pokemons_galarian.map(async (pokemon) => {
+        return await models.Pokemon.create({
           templateId: pokemon.templateId,
           name: pokemon.name,
           pokedex: pokemon.pokedex,
@@ -150,9 +147,6 @@ const pokemonResolver = {
           thirdMoveStardust: pokemon.thirdMoveStardust,
           thirdMoveCandy: pokemon.thirdMoveCandy,
         });
-        poke.save();
-
-        return poke;
       });
     },
   },

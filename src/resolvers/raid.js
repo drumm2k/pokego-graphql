@@ -1,11 +1,9 @@
 import fetch from 'node-fetch';
-import Raid from '../models/raid';
-import Pokemon from '../models/pokemon';
 
-const raidPokemon = async (raid) => {
+const raidPokemon = async (raid, models) => {
   try {
     const pokemonName = raid.pokemon.replace('_FORM', '');
-    const pokemonData = await Pokemon.findOne({ name: pokemonName });
+    const pokemonData = await models.Pokemon.findOne({ name: pokemonName });
 
     return {
       pokemon: pokemonData._id,
@@ -20,9 +18,9 @@ const raidPokemon = async (raid) => {
 
 const raidResolver = {
   Query: {
-    getRaids: async () => {
+    getRaids: async (_parent, _args, { models }) => {
       try {
-        const raids = await Raid.find()
+        const raids = await models.Raid.find()
           .sort({ tier: 1 })
           .populate({ path: 'raids', populate: { path: 'pokemon' } });
 
@@ -38,9 +36,9 @@ const raidResolver = {
     },
   },
   Mutation: {
-    initRaids: async (parent, args, context, info) => {
-      if (!context.user || !context.user.roles.includes('admin')) {
-        throw new Error('Unathenticated');
+    initRaids: async (_parent, _args, { user, models }) => {
+      if (!user || !user.roles.includes('admin')) {
+        throw new Error('Unathorized');
       }
 
       try {
@@ -55,17 +53,15 @@ const raidResolver = {
 
         return raidList.map(async (tier) => {
           const raidResult = tier.raids.map((raid) => {
-            return raidPokemon(raid);
+            return raidPokemon(raid, models);
           });
 
-          const raid = new Raid({
+          await models.Raid.remove({}); // Wipe previous data
+
+          return await models.Raid.create({
             tier: tier.tier,
             raids: await Promise.all(raidResult),
           });
-
-          raid.save();
-
-          return { ...raid._doc, id: raid.id };
         });
       } catch (error) {
         throw error;

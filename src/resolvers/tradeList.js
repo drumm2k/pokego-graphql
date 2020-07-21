@@ -1,15 +1,13 @@
-import TradeList from '../models/tradeList';
-import User from '../models/user';
 import { transformTradeList } from './merge';
 
 const tradeListResolver = {
   Query: {
-    getTradeLists: async () => {
+    getTradeLists: async (_parent, _args, { models }) => {
       try {
-        const tradeLists = await TradeList.find();
+        const tradeLists = await models.TradeList.find();
 
-        return tradeLists.map((tradeList) => {
-          return transformTradeList(tradeList);
+        return tradeLists.map((list) => {
+          return transformTradeList(list);
         });
       } catch (error) {
         throw error;
@@ -17,28 +15,27 @@ const tradeListResolver = {
     },
   },
   Mutation: {
-    createTradeList: async (parent, args, context, info) => {
-      if (!context.user) {
-        throw new Error('Unathenticated');
+    createTradeList: async (_parent, { input }, { user, models }) => {
+      if (!user) {
+        throw new Error('Unauthenticated');
       }
       try {
-        const createdBy = await User.findById(context.user.id);
+        const createdBy = await models.User.findById(user.id);
         if (!createdBy) {
-          throw new Error('User not found.');
+          throw new Error('User not found');
         }
 
-        const tradeList = new TradeList({
-          pokemons: args.input.pokemons,
-          description: args.input.description,
-          isPrivate: args.input.isPrivate,
-          createdBy: context.user.id,
+        const tradeList = await models.TradeList.create({
+          pokemons: input.pokemons,
+          description: input.description,
+          isPrivate: input.isPrivate,
+          createdBy: user.id,
         });
-        const result = await tradeList.save();
 
         createdBy.tradeLists.push(tradeList);
         await createdBy.save();
 
-        return transformTradeList(result);
+        return transformTradeList(tradeList);
       } catch (error) {
         throw error;
       }

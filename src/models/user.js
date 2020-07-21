@@ -50,19 +50,9 @@ const userSchema = new Schema(
         type: Number,
       },
     },
-    telegram: String,
-    followers: [
-      {
-        type: Schema.Types.ObjectId,
-        ref: 'Follow',
-      },
-    ],
-    following: [
-      {
-        type: Schema.Types.ObjectId,
-        ref: 'Follow',
-      },
-    ],
+    telegram: {
+      type: String,
+    },
     isBanned: { type: Boolean, default: false },
     isOnline: { type: Boolean, default: false },
     tradeLists: [
