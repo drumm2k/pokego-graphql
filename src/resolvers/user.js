@@ -48,6 +48,24 @@ const userResolver = {
         return false;
       }
     },
+    searchUsers: async (_parent, { query }, { user, models }) => {
+      if (!user) {
+        throw new Error('Unathorized');
+      }
+
+      if (!query) {
+        return [];
+      }
+
+      const users = models.User.find({
+        $or: [{ userName: new RegExp(query, 'i') }],
+        _id: {
+          $ne: user.id,
+        },
+      }).limit(20);
+
+      return users;
+    },
   },
   Mutation: {
     signUp: async (_parent, { input }, { models }) => {

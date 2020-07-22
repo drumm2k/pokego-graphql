@@ -66,88 +66,85 @@ const pokemonResolver = {
       if (!user || !user.roles.includes('admin')) {
         throw new Error('Unathorized');
       }
-
-      await pkmns.pokemons.map(async (pokemon) => {
-        return await models.Pokemon.create({
-          templateId: pokemon.templateId,
-          name: pokemon.name,
-          pokedex: pokemon.pokedex,
-          gen: pokemon.gen,
-          shiny: pokemon.shiny,
-          released: pokemon.released,
-          tradable: pokemon.tradable,
-          type1: pokemon.type1,
-          type2: pokemon.type2,
-          baseStamina: pokemon.baseStamina,
-          baseAttack: pokemon.baseAttack,
-          baseDefense: pokemon.baseDefense,
-          quickMoves: pokemon.quickMoves,
-          cinematicMoves: pokemon.cinematicMoves,
-          pokemonClass: pokemon.pokemonClass,
-          parentId: pokemon.parentId,
-          familyId: pokemon.familyId,
-          kmBuddyDistance: pokemon.kmBuddyDistance,
-          evolutionBranch: pokemon.evolutionBranch,
-          thirdMoveStardust: pokemon.thirdMoveStardust,
-          thirdMoveCandy: pokemon.thirdMoveCandy,
+      try {
+        await pkmns.pokemons.map(async (pokemon) => {
+          return await models.Pokemon.create({
+            templateId: pokemon.templateId,
+            name: pokemon.name,
+            pokedex: pokemon.pokedex,
+            gen: pokemon.gen,
+            shiny: pokemon.shiny,
+            released: pokemon.released,
+            tradable: pokemon.tradable,
+            type1: pokemon.type1,
+            type2: pokemon.type2,
+            baseStamina: pokemon.baseStamina,
+            baseAttack: pokemon.baseAttack,
+            baseDefense: pokemon.baseDefense,
+            quickMoves: pokemon.quickMoves,
+            cinematicMoves: pokemon.cinematicMoves,
+            pokemonClass: pokemon.pokemonClass,
+            parentId: pokemon.parentId,
+            familyId: pokemon.familyId,
+            kmBuddyDistance: pokemon.kmBuddyDistance,
+            evolutionBranch: pokemon.evolutionBranch,
+            thirdMoveStardust: pokemon.thirdMoveStardust,
+            thirdMoveCandy: pokemon.thirdMoveCandy,
+          });
         });
-        poke.save();
-
-        return poke;
-      });
-      await pkmns.pokemons_alola.map(async (pokemon) => {
-        return await models.Pokemon.create({
-          templateId: pokemon.templateId,
-          name: pokemon.name,
-          pokedex: pokemon.pokedex,
-          gen: pokemon.gen,
-          shiny: pokemon.shiny,
-          released: pokemon.released,
-          tradable: pokemon.tradable,
-          type1: pokemon.type1,
-          type2: pokemon.type2,
-          baseStamina: pokemon.baseStamina,
-          baseAttack: pokemon.baseAttack,
-          baseDefense: pokemon.baseDefense,
-          quickMoves: pokemon.quickMoves,
-          cinematicMoves: pokemon.cinematicMoves,
-          pokemonClass: pokemon.pokemonClass,
-          parentId: pokemon.parentId,
-          familyId: pokemon.familyId,
-          kmBuddyDistance: pokemon.kmBuddyDistance,
-          evolutionBranch: pokemon.evolutionBranch,
-          thirdMoveStardust: pokemon.thirdMoveStardust,
-          thirdMoveCandy: pokemon.thirdMoveCandy,
+        await pkmns.pokemons_alola.map(async (pokemon) => {
+          return await models.Pokemon.create({
+            templateId: pokemon.templateId,
+            name: pokemon.name,
+            pokedex: pokemon.pokedex,
+            gen: pokemon.gen,
+            shiny: pokemon.shiny,
+            released: pokemon.released,
+            tradable: pokemon.tradable,
+            type1: pokemon.type1,
+            type2: pokemon.type2,
+            baseStamina: pokemon.baseStamina,
+            baseAttack: pokemon.baseAttack,
+            baseDefense: pokemon.baseDefense,
+            quickMoves: pokemon.quickMoves,
+            cinematicMoves: pokemon.cinematicMoves,
+            pokemonClass: pokemon.pokemonClass,
+            parentId: pokemon.parentId,
+            familyId: pokemon.familyId,
+            kmBuddyDistance: pokemon.kmBuddyDistance,
+            evolutionBranch: pokemon.evolutionBranch,
+            thirdMoveStardust: pokemon.thirdMoveStardust,
+            thirdMoveCandy: pokemon.thirdMoveCandy,
+          });
         });
-        poke.save();
-
-        return poke;
-      });
-      await pkmns.pokemons_galarian.map(async (pokemon) => {
-        return await models.Pokemon.create({
-          templateId: pokemon.templateId,
-          name: pokemon.name,
-          pokedex: pokemon.pokedex,
-          gen: pokemon.gen,
-          shiny: pokemon.shiny,
-          released: pokemon.released,
-          tradable: pokemon.tradable,
-          type1: pokemon.type1,
-          type2: pokemon.type2,
-          baseStamina: pokemon.baseStamina,
-          baseAttack: pokemon.baseAttack,
-          baseDefense: pokemon.baseDefense,
-          quickMoves: pokemon.quickMoves,
-          cinematicMoves: pokemon.cinematicMoves,
-          pokemonClass: pokemon.pokemonClass,
-          parentId: pokemon.parentId,
-          familyId: pokemon.familyId,
-          kmBuddyDistance: pokemon.kmBuddyDistance,
-          evolutionBranch: pokemon.evolutionBranch,
-          thirdMoveStardust: pokemon.thirdMoveStardust,
-          thirdMoveCandy: pokemon.thirdMoveCandy,
+        await pkmns.pokemons_galarian.map(async (pokemon) => {
+          return await models.Pokemon.create({
+            templateId: pokemon.templateId,
+            name: pokemon.name,
+            pokedex: pokemon.pokedex,
+            gen: pokemon.gen,
+            shiny: pokemon.shiny,
+            released: pokemon.released,
+            tradable: pokemon.tradable,
+            type1: pokemon.type1,
+            type2: pokemon.type2,
+            baseStamina: pokemon.baseStamina,
+            baseAttack: pokemon.baseAttack,
+            baseDefense: pokemon.baseDefense,
+            quickMoves: pokemon.quickMoves,
+            cinematicMoves: pokemon.cinematicMoves,
+            pokemonClass: pokemon.pokemonClass,
+            parentId: pokemon.parentId,
+            familyId: pokemon.familyId,
+            kmBuddyDistance: pokemon.kmBuddyDistance,
+            evolutionBranch: pokemon.evolutionBranch,
+            thirdMoveStardust: pokemon.thirdMoveStardust,
+            thirdMoveCandy: pokemon.thirdMoveCandy,
+          });
         });
-      });
+      } catch (error) {
+        throw error;
+      }
     },
   },
 };

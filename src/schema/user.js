@@ -79,6 +79,9 @@ const UserSchema = gql`
 
     # Confirm registration
     confirm(token: String!): Boolean!
+
+    # Search users
+    searchUsers(query: String!): [User!]!
   }
 
   # *****************************
@@ -86,7 +89,7 @@ const UserSchema = gql`
   # *****************************
   extend type Mutation {
     # Register User
-    signUp(input: SignUpInput!): User
+    signUp(input: SignUpInput!): User!
 
     # Confirm registration
     confirmResend(email: String!): Boolean!
