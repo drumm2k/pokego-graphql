@@ -7,7 +7,6 @@ const userSchema = new Schema(
     userName: {
       type: String,
       required: true,
-      lowercase: true,
       trim: true,
       unique: true,
     },
@@ -22,6 +21,8 @@ const userSchema = new Schema(
       type: String,
       required: true,
     },
+    passwordResetToken: String,
+    passwordResetTokenExpiry: Date,
     roles: [
       {
         type: String,

@@ -96,6 +96,12 @@ const UserSchema = gql`
 
     # Log in User
     login(input: LoginInput!): Token!
+
+    # Request Password reset by email
+    resetPasswordRequest(email: String!): Boolean!
+
+    # Change the password by email link
+    verifyResetPasswordRequest(token: String!, password: String!): Token!
   }
 `;
 
