@@ -10,15 +10,21 @@ const UserSchema = gql`
     email: String!
     password: String
     confirmed: Boolean!
+    subscription: Boolean!
     roles: [String]!
+    banned: Boolean
+    online: Boolean
     trainer: Trainer
     location: Location
-    telegram: String
+    social: Social
     tradeLists: [TradeList]!
-    isBanned: Boolean
-    isOnline: Boolean
     createdAt: String!
     updatedAt: String!
+  }
+
+  type Social {
+    telegram: String
+    discord: String
   }
 
   type Trainer {
@@ -46,9 +52,15 @@ const UserSchema = gql`
     userName: String!
     email: String!
     password: String!
+    subscription: Boolean!
+    social: SocialInput
     trainer: TrainerInput!
     location: LocationInput
+  }
+
+  input SocialInput {
     telegram: String
+    discord: String
   }
 
   input LoginInput {

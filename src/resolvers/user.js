@@ -72,7 +72,15 @@ const userResolver = {
   },
   Mutation: {
     signUp: async (_parent, { input }, { models }) => {
-      const { userName, email, password, trainer, location, telegram } = input;
+      const {
+        userName,
+        email,
+        password,
+        subscription,
+        trainer,
+        location,
+        social,
+      } = input;
       try {
         const checkEmail = await models.User.findOne({ email: email });
         if (checkEmail) {
@@ -94,9 +102,10 @@ const userResolver = {
           userName: userName,
           email: email,
           password: hashedPassword,
+          subscription: subscription,
           trainer: trainer,
           location: location,
-          telegram: telegram,
+          social: social,
         });
 
         const payload = {

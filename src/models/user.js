@@ -23,15 +23,14 @@ const userSchema = new Schema(
     },
     passwordResetToken: String,
     passwordResetTokenExpiry: Date,
-    roles: [
-      {
-        type: String,
-      },
-    ],
+    roles: [String],
+    banned: { type: Boolean, default: false },
+    online: { type: Boolean, default: false },
     confirmed: {
       type: Boolean,
       default: false,
     },
+    subscription: Boolean,
     trainer: {
       team: {
         type: String,
@@ -51,11 +50,7 @@ const userSchema = new Schema(
         type: Number,
       },
     },
-    telegram: {
-      type: String,
-    },
-    isBanned: { type: Boolean, default: false },
-    isOnline: { type: Boolean, default: false },
+    social: { telegram: String, discord: String },
     tradeLists: [
       {
         type: Schema.Types.ObjectId,
