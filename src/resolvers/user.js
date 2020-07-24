@@ -129,6 +129,12 @@ const userResolver = {
           throw new Error('Invalid credentials');
         }
 
+        if (!user.confirmed) {
+          throw new Error(
+            `Please confirm your email first ${process.env.FRONTEND_URL}/confirm`
+          );
+        }
+
         const hashedPassword = await bcrypt.compare(password, user.password);
         if (!hashedPassword) {
           throw new Error('Invalid credentials');
@@ -195,6 +201,12 @@ const userResolver = {
         const user = await models.User.findOne({ email: email });
         if (!user) {
           throw new Error('Account not found');
+        }
+
+        if (!user.confirmed) {
+          throw new Error(
+            `Please confirm your email first ${process.env.FRONTEND_URL}/confirm`
+          );
         }
 
         const payload = {
