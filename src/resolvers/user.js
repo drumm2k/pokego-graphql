@@ -161,6 +161,7 @@ const userResolver = {
         return {
           userId: user.id,
           userName: user.userName,
+          roles: user.roles,
           token: token,
           tokenExpiration: 1,
         };

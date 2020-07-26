@@ -41,6 +41,7 @@ const UserSchema = gql`
   type Token {
     userId: ID!
     userName: String!
+    roles: [String!]!
     token: String!
     tokenExpiration: Int!
   }

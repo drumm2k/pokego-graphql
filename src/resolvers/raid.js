@@ -61,7 +61,7 @@ const raidResolver = {
             return raidPokemon(raid, models);
           });
 
-          await models.Raid.remove({}); // Wipe previous data
+          await models.Raid.deleteMany({}); // Wipe previous data
 
           return await models.Raid.create({
             tier: tier.tier,
