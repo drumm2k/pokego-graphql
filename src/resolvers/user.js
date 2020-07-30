@@ -1,8 +1,7 @@
-import {} from 'dotenv/config';
 import bcrypt from 'bcryptjs';
-import nodemailer from 'nodemailer';
+import {} from 'dotenv/config';
 import jwt from 'jsonwebtoken';
-
+import nodemailer from 'nodemailer';
 import { user } from './merge';
 
 const TOKEN_EXPIRY = '2h';
@@ -126,7 +125,7 @@ const userResolver = {
           html: `<div><p>Нажмите на ссылку, чтобы подтвердить ваш адрес:</p><p><a href="${url}">Подтвердить адрес</a></p></div>`,
         });
 
-        return { ...user._doc, password: null, id: user.id };
+        return true;
       } catch (error) {
         throw error;
       }

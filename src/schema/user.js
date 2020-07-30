@@ -102,7 +102,7 @@ const UserSchema = gql`
   # *****************************
   extend type Mutation {
     # Register User
-    signUp(input: SignUpInput!): User!
+    signUp(input: SignUpInput!): Boolean!
 
     # Confirm registration
     confirmResend(email: String!): Boolean!
