@@ -41,11 +41,6 @@ const raidResolver = {
         throw new Error('Unathorized');
       }
 
-      const userDb = await models.User.findById(user.id);
-      if (!userDb.roles.includes('admin')) {
-        throw new Error('Unathorized');
-      }
-
       try {
         const raids = await fetch('https://fight.pokebattler.com/raids');
         const raidsData = await raids.json();

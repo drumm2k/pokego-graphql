@@ -1,13 +1,15 @@
+import { ApolloServer } from 'apollo-server-express';
+import cookieParser from 'cookie-parser';
 import {} from 'dotenv/config';
 import express from 'express';
-import jwt from 'jsonwebtoken';
-import { ApolloServer } from 'apollo-server-express';
 import { express as voyagerMiddleware } from 'graphql-voyager/middleware';
+import { verify } from 'jsonwebtoken';
 import mongoose from 'mongoose';
-
-import schema from './schema';
-import resolvers from './resolvers';
+import { checkAuthorization, createAccessToken, createRefreshToken } from './auth';
 import models from './models';
+import resolvers from './resolvers';
+import schema from './schema';
+import { sendRefreshToken } from './sendRefreshToken';
 
 // Connect to DB
 mongoose
@@ -22,23 +24,12 @@ mongoose
     console.log(`DB connection error: ${err.message}`);
   });
 
-const checkAuthorization = (token) => {
-  try {
-    const authUser = jwt.verify(token, process.env.JWT_SECRET);
-    if (authUser) {
-      return authUser;
-    }
-  } catch (error) {
-    return;
-  }
-};
-
 const server = new ApolloServer({
   typeDefs: schema,
   resolvers,
   // introspection: true,
   // playground: true,
-  context: async ({ req }) => {
+  context: async ({ req, res }) => {
     // Get the user token from the headers
     const authHeader = req.headers.authorization || '';
 
@@ -47,16 +38,52 @@ const server = new ApolloServer({
 
     // Check authorization
     const user = checkAuthorization(token);
-    if (!user) return { models };
 
-    // Add the user and models to the context
-    return { user, models };
+    // If not Authorized return models and res
+    if (!user) return { models, res };
+
+    // Add the user, models and res to the context
+    return { user, models, res };
   },
 });
 
 const app = express();
-app.use('/voyager', voyagerMiddleware({ endpointUrl: '/graphql' }));
+app.use(cookieParser());
+app.post('/refresh_token', async (req, res) => {
+  const token = req.cookies.jid;
+  if (!token) {
+    return res.send({ ok: false, accessToken: '' });
+  }
+
+  // Check if token is valid
+  let payload;
+  try {
+    payload = verify(token, process.env.JWT_REFRESH_SECRET);
+  } catch (error) {
+    return res.send({ ok: false, accessToken: '' });
+  }
+
+  // Token is valid, get the User from DB
+  const user = await models.User.findById(payload.userId);
+  if (!user) {
+    return res.send({ ok: false, accessToken: '' });
+  }
+
+  // Check if payload refresh token version is the same as the DB
+  if (user.tokenVersion !== payload.tokenVersion) {
+    return res.send({ ok: false, accessToken: '' });
+  }
+
+  sendRefreshToken(res, createRefreshToken(user));
+
+  return res.send({ ok: true, accessToken: createAccessToken(user) });
+});
+
+// Apollo Server
 server.applyMiddleware({ app });
+
+// GraphQL Voyager
+app.use('/voyager', voyagerMiddleware({ endpointUrl: '/graphql' }));
 
 app.listen({ port: process.env.PORT || 4000 }, () =>
   console.log(`🚀 Server ready at http://localhost:4000${server.graphqlPath}`)

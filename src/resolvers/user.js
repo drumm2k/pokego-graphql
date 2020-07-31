@@ -1,10 +1,11 @@
-import bcrypt from 'bcryptjs';
+import { compare, hash } from 'bcryptjs';
 import {} from 'dotenv/config';
-import jwt from 'jsonwebtoken';
+import { sign, verify } from 'jsonwebtoken';
 import nodemailer from 'nodemailer';
+import { createAccessToken, createRefreshToken } from '../auth';
+import { sendRefreshToken } from '../sendRefreshToken';
 import { user } from './merge';
 
-const TOKEN_EXPIRY = '2h';
 const RESET_PASSWORD_TOKEN_EXPIRY = 86400;
 
 const transporter = nodemailer.createTransport({
@@ -38,7 +39,7 @@ const userResolver = {
     },
     confirm: async (_parent, { token }, { models }) => {
       try {
-        const authUser = await jwt.verify(token, process.env.JWT_SECRET);
+        const authUser = await verify(token, process.env.JWT_SECRET);
         if (!authUser) return false;
 
         await models.User.findByIdAndUpdate(
@@ -95,7 +96,7 @@ const userResolver = {
         // TODO: Validation
         // ===========================
 
-        const hashedPassword = await bcrypt.hash(password, 12);
+        const hashedPassword = await hash(password, 12);
 
         const user = await models.User.create({
           userName: userName,
@@ -112,8 +113,8 @@ const userResolver = {
           roles: user.roles,
         };
 
-        const emailToken = jwt.sign(payload, process.env.JWT_SECRET, {
-          expiresIn: TOKEN_EXPIRY,
+        const emailToken = sign(payload, process.env.JWT_SECRET, {
+          expiresIn: '8h',
         });
 
         const url = `${process.env.FRONTEND_URL}/confirm/${emailToken}`;
@@ -130,7 +131,7 @@ const userResolver = {
         throw error;
       }
     },
-    login: async (_parent, { input: { email, password } }, { models }) => {
+    login: async (_parent, { input: { email, password } }, { models, res }) => {
       try {
         const user = await models.User.findOne({ email: email });
         if (!user) {
@@ -143,19 +144,13 @@ const userResolver = {
           );
         }
 
-        const hashedPassword = await bcrypt.compare(password, user.password);
+        const hashedPassword = await compare(password, user.password);
         if (!hashedPassword) {
           throw new Error('Invalid credentials');
         }
 
-        const payload = {
-          id: user.id,
-          roles: user.roles,
-        };
-
-        const token = jwt.sign(payload, process.env.JWT_SECRET, {
-          expiresIn: TOKEN_EXPIRY,
-        });
+        const token = createAccessToken(user);
+        sendRefreshToken(res, createRefreshToken(user));
 
         return {
           userId: user.id,
@@ -186,7 +181,7 @@ const userResolver = {
           roles: user.roles,
         };
 
-        const emailToken = jwt.sign(payload, process.env.JWT_SECRET, {
+        const emailToken = sign(payload, process.env.JWT_SECRET, {
           expiresIn: TOKEN_EXPIRY,
         });
 
@@ -222,7 +217,7 @@ const userResolver = {
           id: user.id,
         };
 
-        const token = jwt.sign(payload, process.env.JWT_SECRET_PASSWORD_RESET, {
+        const token = sign(payload, process.env.JWT_RESET_SECRET, {
           expiresIn: RESET_PASSWORD_TOKEN_EXPIRY,
         });
         const tokenExpiry = Date.now() + RESET_PASSWORD_TOKEN_EXPIRY;
@@ -249,10 +244,7 @@ const userResolver = {
     },
     verifyResetPasswordRequest: async (_parent, { token, password }, { models }) => {
       try {
-        const authUser = await jwt.verify(
-          token,
-          process.env.JWT_SECRET_PASSWORD_RESET
-        );
+        const authUser = await verify(token, process.env.JWT_RESET_SECRET);
         if (!authUser) {
           throw new Error('Unathorized. Try to reset password again');
         }
@@ -273,7 +265,7 @@ const userResolver = {
         // TODO: Password validation
         // ===========================
         const validatedPassword = password;
-        const hashedPassword = await bcrypt.hash(validatedPassword, 12);
+        const hashedPassword = await hash(validatedPassword, 12);
 
         await models.User.findByIdAndUpdate(
           { _id: authUser.id },
@@ -288,8 +280,8 @@ const userResolver = {
           roles: user.roles,
         };
 
-        const authToken = jwt.sign(payload, process.env.JWT_SECRET, {
-          expiresIn: TOKEN_EXPIRY,
+        const authToken = sign(payload, process.env.JWT_SECRET, {
+          expiresIn: '8h',
         });
 
         return {

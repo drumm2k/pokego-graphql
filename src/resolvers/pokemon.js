@@ -35,11 +35,6 @@ const pokemonResolver = {
         throw new Error('Unathorized');
       }
 
-      const userDb = await models.User.findById(user.id);
-      if (!userDb.roles.includes('admin')) {
-        throw new Error('Unathorized');
-      }
-
       try {
         return await models.Pokemon.create({
           templateId: input.templateId,
@@ -70,11 +65,6 @@ const pokemonResolver = {
     },
     initPokemons: async (_parent, _args, { models, user }) => {
       if (!user || !user.roles.includes('admin')) {
-        throw new Error('Unathorized');
-      }
-
-      const userDb = await models.User.findById(user.id);
-      if (!userDb.roles.includes('admin')) {
         throw new Error('Unathorized');
       }
 
