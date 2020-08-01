@@ -1,5 +1,6 @@
 import { ApolloServer } from 'apollo-server-express';
 import cookieParser from 'cookie-parser';
+import cors from 'cors';
 import {} from 'dotenv/config';
 import express from 'express';
 import { express as voyagerMiddleware } from 'graphql-voyager/middleware';
@@ -48,6 +49,7 @@ const server = new ApolloServer({
 });
 
 const app = express();
+app.use(cors({ origin: process.env.FRONTEND_URL, credentials: true }));
 app.use(cookieParser());
 app.post('/refresh_token', async (req, res) => {
   const token = req.cookies.jid;
@@ -80,7 +82,7 @@ app.post('/refresh_token', async (req, res) => {
 });
 
 // Apollo Server
-server.applyMiddleware({ app });
+server.applyMiddleware({ app, cors: false });
 
 // GraphQL Voyager
 app.use('/voyager', voyagerMiddleware({ endpointUrl: '/graphql' }));

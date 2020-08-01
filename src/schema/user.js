@@ -39,11 +39,8 @@ const UserSchema = gql`
   }
 
   type Token {
-    userId: ID!
-    userName: String!
-    roles: [String!]!
-    token: String!
-    tokenExpiration: Int!
+    accessToken: String!
+    user: User
   }
 
   # *****************************
@@ -95,6 +92,8 @@ const UserSchema = gql`
 
     # Search users
     searchUsers(query: String!): [User!]!
+
+    hello: String!
   }
 
   # *****************************
@@ -109,6 +108,9 @@ const UserSchema = gql`
 
     # Log in User
     login(input: LoginInput!): Token!
+
+    # Log out
+    logout: Boolean!
 
     # Request Password reset by email
     resetPasswordRequest(email: String!): Boolean!

@@ -19,6 +19,13 @@ const transporter = nodemailer.createTransport({
 
 const userResolver = {
   Query: {
+    hello: async (_parent, _args, { user }) => {
+      if (!user) {
+        throw new Error('Unathorized');
+      }
+
+      return 'hi';
+    },
     getUser: async (_parent, { userName }, { models }) => {
       try {
         const userData = await models.User.findOne({ userName: userName });
@@ -149,19 +156,22 @@ const userResolver = {
           throw new Error('Invalid credentials');
         }
 
-        const token = createAccessToken(user);
+        const accessToken = createAccessToken(user);
         sendRefreshToken(res, createRefreshToken(user));
 
+        user.password = '';
+
         return {
-          userId: user.id,
-          userName: user.userName,
-          roles: user.roles,
-          token: token,
-          tokenExpiration: 1,
+          accessToken: accessToken,
+          user: user,
         };
       } catch (error) {
         throw error;
       }
+    },
+    logout: async (_parent, _args, { res }) => {
+      sendRefreshToken(res, '');
+      return true;
     },
     confirmResend: async (_parent, { email }, { models }) => {
       try {
