@@ -3,6 +3,6 @@ export const sendRefreshToken = (res, token) => {
     httpOnly: true,
     secure: true,
     // domain: process.env.FRONTEND_DOMAIN,
-    sameSite: 'Strict',
+    sameSite: 'none',
   });
 };
