@@ -34,6 +34,11 @@ const userResolver = {
         throw error;
       }
     },
+    me: async (_parent, _args, { models, user }) => {
+      const userData = await models.User.findById(user.userId);
+      userData.password = '';
+      return userData;
+    },
     getUsers: async (_parent, _args, { models }) => {
       try {
         const usersData = await models.User.find();
