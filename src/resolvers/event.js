@@ -6,7 +6,7 @@ const eventResolver = {
       return events.events;
     },
     getEvent(_parent, { id }, _context) {
-      return events.events.find((event) => event.id === parseInt(id));
+      return events.events.find((event) => event.id === parseInt(id, 10));
     },
   },
   Mutation: {},
