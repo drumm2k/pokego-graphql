@@ -6,6 +6,8 @@ const REFRESH_TOKEN_EXPIRY = '7d';
 export const createAccessToken = (user) => {
   const payload = {
     userId: user.id,
+    userName: user.userName,
+    email: user.email,
     roles: user.roles,
   };
 

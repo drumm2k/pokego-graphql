@@ -87,9 +87,6 @@ const UserSchema = gql`
     # Get User by username
     getUser(userName: String!): User!
 
-    # Get logged in user data
-    me: User!
-
     # Confirm registration
     confirm(token: String!): Boolean!
 
