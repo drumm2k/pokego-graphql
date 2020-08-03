@@ -13,7 +13,6 @@ const UserSchema = gql`
     subscription: Boolean!
     roles: [String]!
     banned: Boolean
-    online: Boolean
     trainer: Trainer
     location: Location
     social: Social

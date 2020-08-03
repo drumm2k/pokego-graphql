@@ -2,6 +2,7 @@ import { compare, hash } from 'bcryptjs';
 import {} from 'dotenv/config';
 import { sign, verify } from 'jsonwebtoken';
 import nodemailer from 'nodemailer';
+import passwordTest from '../../helpers/passwordTest';
 import { createAccessToken, createRefreshToken } from '../auth';
 import { sendRefreshToken } from '../sendRefreshToken';
 import { user } from './merge';
@@ -99,10 +100,8 @@ const userResolver = {
           throw new Error('User already exists');
         }
 
-        // ===========================
-        // TODO: Validation
-        // ===========================
-
+        // Validate password
+        passwordTest(password);
         const hashedPassword = await hash(password, 12);
 
         const user = await models.User.create({
@@ -271,11 +270,9 @@ const userResolver = {
           throw new Error('Unathorized. Try to reset password again');
         }
 
-        // ===========================
-        // TODO: Password validation
-        // ===========================
-        const validatedPassword = password;
-        const hashedPassword = await hash(validatedPassword, 12);
+        // Validate password
+        passwordTest(password);
+        const hashedPassword = await hash(password, 12);
 
         await models.User.findByIdAndUpdate(
           { _id: authUser.id },

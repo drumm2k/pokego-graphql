@@ -9,6 +9,9 @@ const userSchema = new Schema(
       required: true,
       trim: true,
       unique: true,
+      minlength: 2,
+      maxlength: 30,
+      match: [/^[a-zA-Z0-9]*$/, 'Username must include only letters and numbers!'],
     },
     email: {
       type: String,
@@ -16,6 +19,7 @@ const userSchema = new Schema(
       lowercase: true,
       trim: true,
       unique: true,
+      match: [/^\S+@\S+\.\S+$/, 'Please fill a valid email address'],
     },
     password: {
       type: String,
@@ -29,7 +33,6 @@ const userSchema = new Schema(
     passwordResetTokenExpiry: Date,
     roles: [String],
     banned: { type: Boolean, default: false },
-    online: { type: Boolean, default: false },
     confirmed: {
       type: Boolean,
       default: false,
@@ -38,12 +41,17 @@ const userSchema = new Schema(
     trainer: {
       team: {
         type: String,
+        required: true,
+        match: [/(valor|mystic|instinct)/, 'Unknown team'],
       },
       level: {
         type: Number,
+        min: 1,
+        max: 40,
       },
       code: {
         type: String,
+        match: [/[\d*]{12}/, 'Code should be exactly 12 digits'],
       },
     },
     location: {
@@ -54,7 +62,16 @@ const userSchema = new Schema(
         type: Number,
       },
     },
-    social: { telegram: String, discord: String },
+    social: {
+      telegram: {
+        type: String,
+        match: [/^[a-zA-Z0-9]*$/, 'Only letters or digits'],
+      },
+      discord: {
+        type: String,
+        match: [/^[a-zA-Z0-9#]*$/, 'Only letters, digits or #'],
+      },
+    },
     tradeLists: [
       {
         type: Schema.Types.ObjectId,
