@@ -5,7 +5,7 @@ export const sendRefreshToken = (res, token) => {
     httpOnly: true,
     // domain: process.env.FRONTEND_DOMAIN,
     path: '/',
-    sameSite: 'lax',
+    sameSite: 'none',
     maxAge: MAX_AGE,
     expires: new Date(Date.now() + MAX_AGE * 1000),
     secure: process.env.NODE_ENV === 'production',
