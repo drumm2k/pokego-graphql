@@ -91,8 +91,6 @@ const UserSchema = gql`
 
     # Search users
     searchUsers(query: String!): [User!]!
-
-    hello: String!
   }
 
   # *****************************

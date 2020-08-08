@@ -34,6 +34,7 @@ export const checkAuthorization = (token) => {
       return authUser;
     }
   } catch (error) {
-    return;
+    return null;
   }
+  return null;
 };

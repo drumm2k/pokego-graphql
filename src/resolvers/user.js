@@ -20,13 +20,6 @@ const transporter = nodemailer.createTransport({
 
 const userResolver = {
   Query: {
-    hello: async (_parent, _args, { user }) => {
-      if (!user) {
-        throw new Error('Unathorized');
-      }
-
-      return 'hi';
-    },
     getUser: async (_parent, { userName }, { models }) => {
       const userData = await models.User.findOne({ userName });
       return convertUser(userData);
@@ -108,7 +101,7 @@ const userResolver = {
 
       const payload = {
         id: user.id,
-        roles: user.roles,
+        email: user.email,
       };
 
       const emailToken = sign(payload, process.env.JWT_SECRET, {
